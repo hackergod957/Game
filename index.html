@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌿 जडीबूटी · fixed symptoms & balanced spells</title>
+    <title>🌿 जडीबूटी · DUAL GAME · plant healer + kingdom challenge</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* (styles unchanged) */
+        /* ---------- global styles (shared) ---------- */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
         body {
             background: linear-gradient(145deg, #1b4a2b 0%, #2e6b3e 100%);
             min-height: 100vh;
@@ -23,7 +22,6 @@
             padding: 12px;
             overflow-x: hidden;
         }
-
         .game-wrapper {
             max-width: 1300px;
             width: 100%;
@@ -34,7 +32,6 @@
             border: 3px solid #6f8f5f;
             position: relative;
         }
-
         .sparkle-container {
             position: absolute;
             top: 0;
@@ -59,7 +56,6 @@
             0% { transform: scale(1) translateY(0); opacity: 1; }
             100% { transform: scale(0.5) translateY(-100px); opacity: 0; }
         }
-
         .character-panel {
             background: #b8d9ae;
             padding: 20px 20px 15px;
@@ -72,7 +68,37 @@
             position: relative;
             z-index: 5;
         }
-
+        .game-menu {
+            background: #e6d5b8;
+            border-radius: 60px;
+            padding: 8px 20px;
+            display: flex;
+            gap: 20px;
+            border: 3px solid #8f6b3e;
+            box-shadow: inset 0 -3px 0 #6b4f32;
+        }
+        .game-menu button {
+            background: #ebc36b;
+            border: none;
+            border-radius: 40px;
+            padding: 8px 25px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #6f8f5f;
+            color: #2b4d2b;
+            transition: 0.1s;
+            box-shadow: 0 4px 0 #506b3a;
+        }
+        .game-menu button:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #506b3a;
+        }
+        .game-menu button.active {
+            background: #f5cf85;
+            border-color: #caa835;
+            box-shadow: 0 4px 0 #a07d2b;
+        }
         .character-box {
             background: #ffefc0;
             width: 170px;
@@ -87,7 +113,6 @@
             transition: 0.2s;
             position: relative;
         }
-
         .character-box.dance {
             animation: dance 0.5s infinite alternate;
         }
@@ -95,7 +120,6 @@
             from { transform: rotate(-3deg) scale(1); }
             to { transform: rotate(3deg) scale(1.05); }
         }
-
         .hat {
             font-size: 2.5rem;
             position: absolute;
@@ -111,13 +135,11 @@
             25% { transform: translateX(-50%) rotate(-5deg); }
             75% { transform: translateX(-50%) rotate(5deg); }
         }
-
         .eyes {
             display: flex;
             gap: 30px;
             margin-top: 20px;
         }
-
         .eye {
             width: 30px;
             height: 30px;
@@ -129,7 +151,6 @@
             align-items: center;
             overflow: hidden;
         }
-
         .pupil {
             width: 16px;
             height: 16px;
@@ -137,7 +158,6 @@
             border-radius: 50%;
             transition: 0.1s;
         }
-
         .mouth {
             width: 60px;
             height: 30px;
@@ -147,13 +167,11 @@
             margin-top: 15px;
             transition: 0.2s;
         }
-
         .mouth.happy {
             border-bottom: 8px solid #5ba35b;
             border-radius: 30px 30px 0 0;
             transform: rotate(180deg);
         }
-
         .mouth.sick {
             border-bottom: 8px solid #b3a14a;
             border-radius: 0 0 30px 30px;
@@ -162,18 +180,15 @@
             margin-left: auto;
             margin-right: auto;
         }
-
         .mouth.dead {
             border-bottom: 8px solid #5f5f5f;
             border-radius: 0;
             width: 50px;
             border-bottom: 4px solid #555;
         }
-
         .dead .pupil {
             background: #555;
         }
-
         .health-bar {
             background: #482e1b;
             border-radius: 60px;
@@ -182,14 +197,12 @@
             gap: 10px;
             border: 3px solid #ffd78c;
         }
-
         .heart {
             font-size: 2.2rem;
             color: #ff3b3b;
             text-shadow: 0 3px 0 #951919;
             transition: all 0.2s ease;
         }
-
         .heart.dead {
             color: #7a7a7a !important;
             text-shadow: 0 3px 0 #3f3f3f !important;
@@ -197,17 +210,14 @@
             transform: scale(0.9);
             filter: grayscale(1);
         }
-
         .heart.pulse {
             animation: heartPulse 0.3s ease;
         }
-
         @keyframes heartPulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.3); color: #ff9090; }
             100% { transform: scale(1); }
         }
-
         .mana-bar {
             background: #1e3a5f;
             border-radius: 60px;
@@ -230,54 +240,6 @@
         .mana-text {
             margin-left: 10px;
         }
-
-        .spell-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-            justify-content: center;
-        }
-        .spell-btn {
-            background: #6a4e9b;
-            border: none;
-            border-radius: 40px;
-            padding: 8px 16px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            border: 2px solid #b696e0;
-            box-shadow: 0 5px 0 #3f2e5c;
-            transition: 0.05s;
-        }
-        .spell-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #3f2e5c;
-        }
-        .spell-btn.disabled {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-        .symptom-box {
-            background: #fcf0d5;
-            border-radius: 60px;
-            padding: 16px 25px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #1b461b;
-            box-shadow: inset 0 -4px 0 #b89a7a, 0 8px 0 #5e7a4e;
-            border: 2px solid #6a923a;
-            min-width: 280px;
-            text-align: center;
-            animation: glowPulse 2s infinite;
-        }
-        @keyframes glowPulse {
-            0% { box-shadow: inset 0 -4px 0 #b89a7a, 0 8px 0 #5e7a4e; }
-            50% { box-shadow: inset 0 -4px 0 #b89a7a, 0 8px 10px #f5e56b; }
-            100% { box-shadow: inset 0 -4px 0 #b89a7a, 0 8px 0 #5e7a4e; }
-        }
-
         .popup {
             position: fixed;
             top: 30%;
@@ -297,360 +259,6 @@
             white-space: nowrap;
             pointer-events: none;
         }
-
-        .computer-panel {
-            background: #bed5af;
-            padding: 25px 20px;
-            border-top: 4px solid #57803d;
-        }
-
-        .screen {
-            background: #1f3827;
-            border: 8px solid #6c946c;
-            border-radius: 30px;
-            padding: 25px 20px;
-            box-shadow: inset 0 0 0 3px #aacfaa, 0 10px 0 #355235;
-            color: #cfffc3;
-            position: relative;
-            z-index: 5;
-        }
-
-        .instructions {
-            text-align: center;
-            font-size: 1.2rem;
-            background: #1f3d26;
-            padding: 8px 16px;
-            border-radius: 60px;
-            margin-bottom: 25px;
-            border: 2px solid #87b386;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        .mute-btn, .hint-btn, .journal-btn, .shuffle-btn, .manual-btn {
-            background: #ebc36b;
-            border: none;
-            border-radius: 40px;
-            padding: 5px 15px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border: 2px solid #6f8f5f;
-            color: #2b4d2b;
-            font-weight: bold;
-            transition: 0.1s;
-        }
-        .mute-btn:hover, .hint-btn:hover, .journal-btn:hover, .shuffle-btn:hover, .manual-btn:hover {
-            transform: scale(1.05);
-            background: #f5cf85;
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 18px;
-            margin: 30px 0 25px;
-        }
-
-        .plant-card {
-            background: #ebdbbc;
-            border-radius: 30px;
-            border: 4px solid #5f8246;
-            box-shadow: 0 7px 0 #42633b;
-            cursor: pointer;
-            transition: 0.1s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px 8px 12px;
-            color: #1d421d;
-            min-height: 180px;
-            position: relative;
-            animation: cardIdle 3s infinite;
-        }
-        @keyframes cardIdle {
-            0%,100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-
-        .plant-card:hover {
-            transform: scale(1.05) rotate(1deg);
-            border-color: #caa835;
-            box-shadow: 0 9px 0 #a07d2b;
-        }
-
-        .plant-card.correct-sparkle {
-            animation: correctSparkle 0.8s ease;
-        }
-        @keyframes correctSparkle {
-            0% { box-shadow: 0 0 0px gold; }
-            30% { box-shadow: 0 0 30px gold, 0 0 50px orange; transform: scale(1.1); }
-            100% { box-shadow: 0 0 0px gold; }
-        }
-
-        .plant-card .image-container {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f5e9d4;
-            border-radius: 30px;
-            border: 3px solid #8aa878;
-            overflow: hidden;
-        }
-
-        .plant-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: 0.3s;
-        }
-        .plant-card:hover img {
-            transform: scale(1.1);
-        }
-
-        .plant-card .fallback {
-            font-size: 3.5rem;
-            line-height: 1;
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #c5b59b;
-            color: #1d421d;
-        }
-
-        .plant-card span {
-            font-weight: 600;
-            font-size: 0.95rem;
-            background: #fcf9e9;
-            padding: 5px 10px;
-            border-radius: 30px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid #486335;
-            margin-top: 8px;
-        }
-
-        .plant-card.selected {
-            background: #f8f0aa;
-            border-color: #caa835;
-            box-shadow: 0 7px 0 #a07d2b;
-            transform: scale(1.02);
-        }
-
-        .plant-card.healed {
-            opacity: 0.8;
-            filter: sepia(0.3) brightness(1.1);
-            border-color: #d4a017;
-            box-shadow: 0 5px 0 #a07d2b;
-        }
-        .plant-card.healed::after {
-            content: "✔️";
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            font-size: 2rem;
-            color: gold;
-            text-shadow: 0 2px 0 #5a4500;
-        }
-
-        .plant-card.disabled {
-            opacity: 0.3;
-            pointer-events: none;
-            filter: grayscale(1);
-        }
-
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-7px); }
-            50% { transform: translateX(7px); }
-            75% { transform: translateX(-3px); }
-            100% { transform: translateX(0); }
-        }
-        .shake {
-            animation: shake 0.3s ease;
-        }
-
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px #5f8b5f; }
-            50% { box-shadow: 0 0 20px #b3ffa7, 0 0 40px gold; }
-            100% { box-shadow: 0 0 5px #5f8b5f; }
-        }
-        .glow {
-            animation: glow 0.5s ease;
-        }
-
-        .scientific-input-area {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            background: #2a462f;
-            padding: 15px 20px;
-            border-radius: 60px;
-            border: 2px solid #7ead73;
-            margin-top: 20px;
-        }
-
-        .scientific-input-area label {
-            font-weight: bold;
-            color: #dcf5cf;
-            font-size: 1.2rem;
-        }
-
-        .scientific-input-area input {
-            flex: 3 1 260px;
-            padding: 14px 24px;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            background: #fcf5e3;
-            border: 2px solid #54734b;
-            font-family: 'Courier New', monospace;
-            font-weight: 600;
-            color: #1a3b1a;
-            outline: none;
-            transition: 0.2s;
-        }
-        .scientific-input-area input:focus {
-            border-color: #f7c55a;
-            box-shadow: 0 0 20px #f7e05e;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 30px 0 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            background: #eccf8d;
-            border: none;
-            font-size: 1.3rem;
-            font-weight: bold;
-            padding: 16px 40px;
-            border-radius: 50px;
-            border: 3px solid #5f7648;
-            box-shadow: 0 7px 0 #506b3a;
-            cursor: pointer;
-            transition: 0.05s linear;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            color: #1e421e;
-        }
-
-        .btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 2px 0 #3e6232;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            pointer-events: none;
-            transform: translateY(3px);
-        }
-
-        .feedback {
-            background: #382f1f;
-            border-radius: 40px;
-            padding: 14px 24px;
-            font-size: 1.2rem;
-            text-align: center;
-            color: #fcf0ba;
-            margin-top: 15px;
-            border: 2px solid #a1b976;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
-        }
-
-        .score-bar {
-            display: flex;
-            justify-content: space-between;
-            background: #5f8053;
-            padding: 10px 25px;
-            border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-            border: 2px solid #bad6a3;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .streak {
-            background: #f5b342;
-            color: #2d471d;
-            padding: 5px 20px;
-            border-radius: 40px;
-            font-weight: bold;
-            animation: streakGlow 1s infinite;
-        }
-        @keyframes streakGlow {
-            0%,100% { box-shadow: 0 0 5px gold; }
-            50% { box-shadow: 0 0 20px gold; }
-        }
-
-        .progress {
-            background: #3f693f;
-            height: 20px;
-            border-radius: 40px;
-            margin: 15px 0 5px;
-            border: 2px solid #92b882;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #f7d44a, #ffb347);
-            transition: width 0.3s;
-            animation: progressShimmer 2s infinite;
-        }
-        @keyframes progressShimmer {
-            0% { opacity: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 1; }
-        }
-
-        .level-badge {
-            background: #b8860b;
-            color: #ffe7a0;
-            padding: 5px 25px;
-            border-radius: 40px;
-            font-weight: bold;
-            display: inline-block;
-            margin-left: 10px;
-        }
-
-        .boss-indicator {
-            background: #a53f3f;
-            color: #ffdba0;
-            padding: 10px 20px;
-            border-radius: 60px;
-            text-align: center;
-            font-size: 1.5rem;
-            border: 3px solid gold;
-            margin-bottom: 15px;
-            animation: bossPulse 0.8s infinite alternate;
-        }
-        @keyframes bossPulse {
-            from { transform: scale(1); background: #a53f3f; }
-            to { transform: scale(1.02); background: #c44f4f; }
-        }
-
         .game-overlay {
             background: rgba(0,0,0,0.7);
             position: fixed;
@@ -693,7 +301,6 @@
             margin-top: 8px;
             text-align: center;
         }
-
         /* modal */
         .modal {
             position: fixed;
@@ -779,50 +386,414 @@
             cursor: pointer;
             border: 2px solid #5f7648;
         }
+
+        /* ---------- game specific sections ---------- */
+        .game-section {
+            display: none;
+        }
+        .game-section.active {
+            display: block;
+        }
+        .computer-panel {
+            background: #bed5af;
+            padding: 25px 20px;
+            border-top: 4px solid #57803d;
+        }
+        .screen {
+            background: #1f3827;
+            border: 8px solid #6c946c;
+            border-radius: 30px;
+            padding: 25px 20px;
+            box-shadow: inset 0 0 0 3px #aacfaa, 0 10px 0 #355235;
+            color: #cfffc3;
+            position: relative;
+            z-index: 5;
+        }
+        .instructions {
+            text-align: center;
+            font-size: 1.2rem;
+            background: #1f3d26;
+            padding: 8px 16px;
+            border-radius: 60px;
+            margin-bottom: 25px;
+            border: 2px solid #87b386;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .mute-btn, .hint-btn, .journal-btn, .shuffle-btn, .manual-btn {
+            background: #ebc36b;
+            border: none;
+            border-radius: 40px;
+            padding: 5px 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: 2px solid #6f8f5f;
+            color: #2b4d2b;
+            font-weight: bold;
+            transition: 0.1s;
+        }
+        .mute-btn:hover, .hint-btn:hover, .journal-btn:hover, .shuffle-btn:hover, .manual-btn:hover {
+            transform: scale(1.05);
+            background: #f5cf85;
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 18px;
+            margin: 30px 0 25px;
+        }
+        .plant-card {
+            background: #ebdbbc;
+            border-radius: 30px;
+            border: 4px solid #5f8246;
+            box-shadow: 0 7px 0 #42633b;
+            cursor: pointer;
+            transition: 0.1s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 8px 12px;
+            color: #1d421d;
+            min-height: 180px;
+            position: relative;
+            animation: cardIdle 3s infinite;
+        }
+        @keyframes cardIdle {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        .plant-card:hover {
+            transform: scale(1.05) rotate(1deg);
+            border-color: #caa835;
+            box-shadow: 0 9px 0 #a07d2b;
+        }
+        .plant-card.correct-sparkle {
+            animation: correctSparkle 0.8s ease;
+        }
+        @keyframes correctSparkle {
+            0% { box-shadow: 0 0 0px gold; }
+            30% { box-shadow: 0 0 30px gold, 0 0 50px orange; transform: scale(1.1); }
+            100% { box-shadow: 0 0 0px gold; }
+        }
+        .plant-card .image-container {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5e9d4;
+            border-radius: 30px;
+            border: 3px solid #8aa878;
+            overflow: hidden;
+        }
+        .plant-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: 0.3s;
+        }
+        .plant-card:hover img {
+            transform: scale(1.1);
+        }
+        .plant-card .fallback {
+            font-size: 3.5rem;
+            line-height: 1;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #c5b59b;
+            color: #1d421d;
+        }
+        .plant-card span {
+            font-weight: 600;
+            font-size: 0.95rem;
+            background: #fcf9e9;
+            padding: 5px 10px;
+            border-radius: 30px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #486335;
+            margin-top: 8px;
+        }
+        .plant-card.selected {
+            background: #f8f0aa;
+            border-color: #caa835;
+            box-shadow: 0 7px 0 #a07d2b;
+            transform: scale(1.02);
+        }
+        .plant-card.healed {
+            opacity: 0.8;
+            filter: sepia(0.3) brightness(1.1);
+            border-color: #d4a017;
+            box-shadow: 0 5px 0 #a07d2b;
+        }
+        .plant-card.healed::after {
+            content: "✔️";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 2rem;
+            color: gold;
+            text-shadow: 0 2px 0 #5a4500;
+        }
+        .plant-card.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+            filter: grayscale(1);
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-7px); }
+            50% { transform: translateX(7px); }
+            75% { transform: translateX(-3px); }
+            100% { transform: translateX(0); }
+        }
+        .shake {
+            animation: shake 0.3s ease;
+        }
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px #5f8b5f; }
+            50% { box-shadow: 0 0 20px #b3ffa7, 0 0 40px gold; }
+            100% { box-shadow: 0 0 5px #5f8b5f; }
+        }
+        .glow {
+            animation: glow 0.5s ease;
+        }
+        .scientific-input-area {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background: #2a462f;
+            padding: 15px 20px;
+            border-radius: 60px;
+            border: 2px solid #7ead73;
+            margin-top: 20px;
+        }
+        .scientific-input-area label {
+            font-weight: bold;
+            color: #dcf5cf;
+            font-size: 1.2rem;
+        }
+        .scientific-input-area input {
+            flex: 3 1 260px;
+            padding: 14px 24px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            background: #fcf5e3;
+            border: 2px solid #54734b;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #1a3b1a;
+            outline: none;
+            transition: 0.2s;
+        }
+        .scientific-input-area input:focus {
+            border-color: #f7c55a;
+            box-shadow: 0 0 20px #f7e05e;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: #eccf8d;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            padding: 16px 40px;
+            border-radius: 50px;
+            border: 3px solid #5f7648;
+            box-shadow: 0 7px 0 #506b3a;
+            cursor: pointer;
+            transition: 0.05s linear;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: #1e421e;
+        }
+        .btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #3e6232;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            transform: translateY(3px);
+        }
+        .feedback {
+            background: #382f1f;
+            border-radius: 40px;
+            padding: 14px 24px;
+            font-size: 1.2rem;
+            text-align: center;
+            color: #fcf0ba;
+            margin-top: 15px;
+            border: 2px solid #a1b976;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            background: #5f8053;
+            padding: 10px 25px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid #bad6a3;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .streak {
+            background: #f5b342;
+            color: #2d471d;
+            padding: 5px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            animation: streakGlow 1s infinite;
+        }
+        @keyframes streakGlow {
+            0%,100% { box-shadow: 0 0 5px gold; }
+            50% { box-shadow: 0 0 20px gold; }
+        }
+        .progress {
+            background: #3f693f;
+            height: 20px;
+            border-radius: 40px;
+            margin: 15px 0 5px;
+            border: 2px solid #92b882;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f7d44a, #ffb347);
+            transition: width 0.3s;
+            animation: progressShimmer 2s infinite;
+        }
+        @keyframes progressShimmer {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+        .level-badge {
+            background: #b8860b;
+            color: #ffe7a0;
+            padding: 5px 25px;
+            border-radius: 40px;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .boss-indicator {
+            background: #a53f3f;
+            color: #ffdba0;
+            padding: 10px 20px;
+            border-radius: 60px;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 3px solid gold;
+            margin-bottom: 15px;
+            animation: bossPulse 0.8s infinite alternate;
+        }
+        @keyframes bossPulse {
+            from { transform: scale(1); background: #a53f3f; }
+            to { transform: scale(1.02); background: #c44f4f; }
+        }
+        /* kingdom game specific */
+        .kingdom-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .kingdom-option {
+            background: #ebdbbc;
+            border-radius: 40px;
+            border: 4px solid #5f8246;
+            box-shadow: 0 7px 0 #42633b;
+            cursor: pointer;
+            transition: 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1d421d;
+            text-align: center;
+            min-height: 100px;
+        }
+        .kingdom-option:hover {
+            transform: scale(1.05);
+            border-color: #caa835;
+            box-shadow: 0 9px 0 #a07d2b;
+        }
+        .kingdom-option.correct-sparkle {
+            animation: correctSparkle 0.8s ease;
+        }
+        .fact-box {
+            background: #fcf0d5;
+            border-radius: 60px;
+            padding: 25px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1b461b;
+            box-shadow: inset 0 -4px 0 #b89a7a, 0 8px 0 #5e7a4e;
+            border: 2px solid #6a923a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .kingdom-feedback {
+            background: #382f1f;
+            border-radius: 40px;
+            padding: 14px 24px;
+            font-size: 1.2rem;
+            text-align: center;
+            color: #fcf0ba;
+            margin-top: 15px;
+            border: 2px solid #a1b976;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
-    <div class="popup" id="popupMessage">✨ healed!</div>
+    <div class="popup" id="popupMessage">✨ effect!</div>
     <div class="sparkle-container" id="sparkleContainer"></div>
-    
-    <!-- journal modal -->
+
+    <!-- journal modal (shared) -->
     <div class="modal" id="journalModal">
         <h2><i class="fas fa-book-open"></i> Plant Journal</h2>
         <div class="journal-grid" id="journalGrid"></div>
         <button class="close-modal" id="closeJournal">close</button>
     </div>
 
-    <!-- manual modal -->
+    <!-- manual modal (shared) -->
     <div class="modal" id="manualModal">
         <h2><i class="fas fa-book"></i> User Manual</h2>
-        <div class="manual-content">
-            <p><i class="fas fa-bullseye"></i><strong>Objective:</strong> Heal all 10 plants to unlock the <strong>Disease Demon boss</strong>. Defeat the boss by answering 5 questions correctly in a row.</p>
-            <p><i class="fas fa-play"></i><strong>How to Play:</strong></p>
-            <ul>
-                <li>Click on a plant photo that matches the symptom shown above.</li>
-                <li>Type the plant's scientific name (case‑insensitive, dots ignored).</li>
-                <li>Press <strong>Treat</strong> (or Enter) to submit.</li>
-                <li>After a correct answer, the game automatically moves to a new plant (1.5 sec delay).</li>
-            </ul>
-            <p><i class="fas fa-heart"></i><strong>Hearts & Health:</strong> Start with 3 hearts. Wrong answers cost 1 heart. Gain hearts by:</p>
-            <ul>
-                <li>Healing a <strong>new plant</strong> (first time correct).</li>
-                <li><strong>Streak of 3</strong> correct answers (1 heart, max 3).</li>
-                <li><span style="color:#b34a4a;">⚠️ If you get a wrong answer and then use the displayed correct name, you will NOT gain a heart (only mana & streak).</span></li>
-            </ul>
-            <p><i class="fas fa-bolt"></i><strong>Mana & Spells:</strong> Earn 1 mana per correct answer (max 10). Spells:</p>
-            <ul>
-                <li><i class="fas fa-eye"></i> <strong>Reveal (4 mana):</strong> Highlights the correct plant.</li>
-                <li><i class="fas fa-bolt"></i> <strong>Lightning (2 mana):</strong> Disables one random wrong plant for the round.</li>
-                <li><i class="fas fa-heart"></i> <strong>Heal (4 mana):</strong> Restores one heart (if below max).</li>
-            </ul>
-            <p><i class="fas fa-level-up-alt"></i><strong>Levels:</strong> Every 2 unique plants healed increases your level (up to 5). Your hat changes! 🧢→🎩→👑→🪖→🧙</p>
-            <p><i class="fas fa-fire"></i><strong>Streak:</strong> Consecutive correct answers increase your streak. Every 3rd correct gives a bonus heart.</p>
-            <p><i class="fas fa-random"></i><strong>Shuffle:</strong> Rearranges the four plant cards – useful if you're stuck.</p>
-            <p><i class="fas fa-lightbulb"></i><strong>Hint:</strong> Shows the common name and first letter of the scientific name (no penalty).</p>
-            <p><i class="fas fa-leaf"></i><strong>Journal:</strong> Track which plants you've healed.</p>
-            <p><i class="fas fa-volume-up"></i><strong>Sound:</strong> Mute/unmute with the sound button.</p>
-            <p><i class="fas fa-skull"></i><strong>Game Over:</strong> If hearts reach zero, you die. Click <strong>reincarnate</strong> to restart.</p>
+        <div class="manual-content" id="manualText">
+            <!-- filled by js -->
         </div>
         <button class="close-modal" id="closeManual">close</button>
     </div>
@@ -830,788 +801,1078 @@
     <div class="game-overlay" id="gameOverlay">
         <div class="gameover-box">
             💀 गयो ! 💀<br>
-            <button class="restart-btn" id="restartBtn"><i class="fas fa-sync"></i> reincarnate</button>
+            <button class="restart-btn" id="restartBtn">reincarnate</button>
         </div>
     </div>
 
-<div class="game-wrapper">
-    <div class="character-panel">
-        <div class="character-box" id="character">
-            <div class="hat" id="characterHat">🧢</div>
-            <div class="eyes">
-                <div class="eye"><div class="pupil" id="leftPupil"></div></div>
-                <div class="eye"><div class="pupil" id="rightPupil"></div></div>
+    <div class="game-wrapper">
+        <!-- character panel (shared) -->
+        <div class="character-panel">
+            <div class="character-box" id="character">
+                <div class="hat" id="characterHat">🧢</div>
+                <div class="eyes">
+                    <div class="eye"><div class="pupil" id="leftPupil"></div></div>
+                    <div class="eye"><div class="pupil" id="rightPupil"></div></div>
+                </div>
+                <div class="mouth" id="mouth"></div>
             </div>
-            <div class="mouth" id="mouth"></div>
-        </div>
-        <div class="health-bar" id="healthBar">
-            <span class="heart" id="heart1">❤️</span>
-            <span class="heart" id="heart2">❤️</span>
-            <span class="heart" id="heart3">❤️</span>
-        </div>
-        <div class="mana-bar" id="manaBar">
-            <span>🔮 Mana</span>
-            <div style="flex:1; background:#0f2b3a; border-radius:40px; margin-left:10px;">
-                <div class="mana-fill" id="manaFill" style="width:0%;"></div>
+            <div class="health-bar" id="healthBar">
+                <span class="heart" id="heart1">❤️</span>
+                <span class="heart" id="heart2">❤️</span>
+                <span class="heart" id="heart3">❤️</span>
             </div>
-            <span class="mana-text" id="manaText">0/10</span>
+            <div class="mana-bar" id="manaBar" style="display: none;"> <!-- mana only for game1 -->
+                <span>🔮 Mana</span>
+                <div style="flex:1; background:#0f2b3a; border-radius:40px; margin-left:10px;">
+                    <div class="mana-fill" id="manaFill" style="width:0%;"></div>
+                </div>
+                <span class="mana-text" id="manaText">0/10</span>
+            </div>
+            <div class="game-menu">
+                <button id="btnGame1" class="active">🌿 Plant Healer</button>
+                <button id="btnGame2">🧬 Kingdom Challenge</button>
+            </div>
         </div>
-        <div class="symptom-box" id="symptomDisplay">
-            <i class="fas fa-dizzy"></i> <span id="ailmentText">Loading...</span>
+
+        <!-- GAME 1: Medicinal Plant Healer -->
+        <div id="game1" class="game-section active">
+            <div class="computer-panel">
+                <div class="screen">
+                    <div class="instructions">
+                        <i class="fas fa-camera"></i> click photo · type scientific name
+                        <button class="mute-btn" id="muteBtn"><i class="fas fa-volume-up"></i> sound</button>
+                        <button class="hint-btn" id="hintBtn"><i class="fas fa-lightbulb"></i> hint</button>
+                        <button class="shuffle-btn" id="shuffleBtn"><i class="fas fa-random"></i> shuffle</button>
+                        <button class="journal-btn" id="journalBtn"><i class="fas fa-leaf"></i> journal</button>
+                        <button class="manual-btn" id="manualBtn1"><i class="fas fa-book"></i> manual</button>
+                    </div>
+
+                    <div class="spell-buttons" id="spellButtons">
+                        <button class="spell-btn" id="spellReveal" data-cost="4"><i class="fas fa-eye"></i> Reveal (4 mana)</button>
+                        <button class="spell-btn" id="spellLightning" data-cost="2"><i class="fas fa-bolt"></i> Lightning (2 mana)</button>
+                        <button class="spell-btn" id="spellHeal" data-cost="4"><i class="fas fa-heart"></i> Heal (4 mana)</button>
+                    </div>
+
+                    <div id="bossArea" style="display: none;" class="boss-indicator">⚠️ BOSS BATTLE: Disease Demon ⚠️</div>
+
+                    <div class="progress" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Level <span id="currentLevel">1</span></span>
+                        <span id="plantsHealedCount">0/10</span>
+                    </div>
+
+                    <div class="photo-grid" id="photoGrid"></div>
+
+                    <div class="scientific-input-area">
+                        <label><i class="fas fa-microscope"></i> scientific name:</label>
+                        <input type="text" id="scientificInput" placeholder="e.g. Ocimum tenuiflorum" autocomplete="off">
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn" id="submitBtn"><i class="fas fa-syringe"></i> treat</button>
+                        <button class="btn" id="nextBtn"><i class="fas fa-disease"></i> new symptom</button>
+                    </div>
+
+                    <div class="feedback" id="feedbackMsg">💬 select a plant & type its scientific name...</div>
+
+                    <div class="score-bar">
+                        <span><i class="fas fa-leaf"></i> cured: <span id="scoreHealed">0</span></span>
+                        <span><i class="fas fa-skull"></i> attempts: <span id="scoreAttempts">0</span></span>
+                        <span class="streak"><i class="fas fa-fire"></i> streak: <span id="streakCount">0</span></span>
+                    </div>
+                    <div class="image-note"><i class="fas fa-image"></i> real plant photos (fallback emoji)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME 2: Kingdom Classification Challenge -->
+        <div id="game2" class="game-section">
+            <div class="computer-panel">
+                <div class="screen">
+                    <div class="instructions">
+                        <i class="fas fa-dragon"></i> choose the correct group
+                        <button class="mute-btn" id="muteBtn2"><i class="fas fa-volume-up"></i> sound</button>
+                        <button class="hint-btn" id="hintBtn2"><i class="fas fa-lightbulb"></i> hint</button>
+                        <button class="manual-btn" id="manualBtn2"><i class="fas fa-book"></i> manual</button>
+                    </div>
+
+                    <div class="fact-box" id="kingdomFact">Loading fact...</div>
+
+                    <div class="kingdom-grid" id="kingdomOptions"></div>
+
+                    <div class="action-buttons">
+                        <button class="btn" id="nextFactBtn"><i class="fas fa-forward"></i> next fact</button>
+                    </div>
+
+                    <div class="kingdom-feedback" id="kingdomFeedback">💡 click on the correct group</div>
+
+                    <div class="score-bar">
+                        <span><i class="fas fa-star"></i> score: <span id="kingdomScore">0</span></span>
+                        <span><i class="fas fa-skull"></i> attempts: <span id="kingdomAttempts">0</span></span>
+                        <span class="streak"><i class="fas fa-fire"></i> streak: <span id="kingdomStreak">0</span></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="computer-panel">
-        <div class="screen">
-            <div class="instructions">
-                <i class="fas fa-camera"></i> click photo · type scientific name
-                <button class="mute-btn" id="muteBtn"><i class="fas fa-volume-up"></i> sound</button>
-                <button class="hint-btn" id="hintBtn"><i class="fas fa-lightbulb"></i> hint</button>
-                <button class="shuffle-btn" id="shuffleBtn"><i class="fas fa-random"></i> shuffle</button>
-                <button class="journal-btn" id="journalBtn"><i class="fas fa-leaf"></i> journal</button>
-                <button class="manual-btn" id="manualBtn"><i class="fas fa-book"></i> manual</button>
-            </div>
-
-            <!-- spell buttons (updated costs) -->
-            <div class="spell-buttons" id="spellButtons">
-                <button class="spell-btn" id="spellReveal" data-cost="4"><i class="fas fa-eye"></i> Reveal (4 mana)</button>
-                <button class="spell-btn" id="spellLightning" data-cost="2"><i class="fas fa-bolt"></i> Lightning (2 mana)</button>
-                <button class="spell-btn" id="spellHeal" data-cost="4"><i class="fas fa-heart"></i> Heal (4 mana)</button>
-            </div>
-
-            <!-- boss warning / progress -->
-            <div id="bossArea" style="display: none;" class="boss-indicator">⚠️ BOSS BATTLE: Disease Demon ⚠️</div>
-
-            <!-- progress to next level -->
-            <div class="progress" id="progressBar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                <span>Level <span id="currentLevel">1</span></span>
-                <span id="plantsHealedCount">0/10</span>
-            </div>
-
-            <div class="photo-grid" id="photoGrid"></div>
-
-            <div class="scientific-input-area">
-                <label><i class="fas fa-microscope"></i> scientific name:</label>
-                <input type="text" id="scientificInput" placeholder="e.g. Ocimum tenuiflorum" autocomplete="off">
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn" id="submitBtn"><i class="fas fa-syringe"></i> treat</button>
-                <button class="btn" id="nextBtn"><i class="fas fa-disease"></i> new symptom</button>
-            </div>
-
-            <div class="feedback" id="feedbackMsg">💬 select a plant & type its scientific name...</div>
-
-            <div class="score-bar">
-                <span><i class="fas fa-leaf"></i> cured: <span id="scoreHealed">0</span></span>
-                <span><i class="fas fa-skull"></i> attempts: <span id="scoreAttempts">0</span></span>
-                <span class="streak"><i class="fas fa-fire"></i> streak: <span id="streakCount">0</span></span>
-            </div>
-            <div class="image-note"><i class="fas fa-image"></i> real plant photos (fallback emoji)</div>
-        </div>
-    </div>
-</div>
-
-<script>
-(function() {
-    // ------ plant database with FIXED YARSAGUMBA USE ------
-    const plants = [
-        { common: "Holy Basil (Tulsi)", scientific: "Ocimum tenuiflorum", use: "throat pain, colds, infections", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg/800px-Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg", emoji: "🌿", healed: false },
-        { common: "Neem", scientific: "Azadirachta indica", use: "skin problems, blood purifier", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Azadirachta_indica_%28Neem%29_leaves.jpg/800px-Azadirachta_indica_%28Neem%29_leaves.jpg", emoji: "🌳", healed: false },
-        { common: "Heart-leaved moonseed (Gurjo)", scientific: "Tinospora cordifolia", use: "boost immunity, reduce sugar", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Tinospora_cordifolia_%28Guduchi%29.jpg/800px-Tinospora_cordifolia_%28Guduchi%29.jpg", emoji: "🌱", healed: false },
-        { common: "Asiatic pennywort (Ghod tapre)", scientific: "Centella asiatica", use: "memory, anxiety, burn healing", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Centella_asiatica_%28Gotu_kola%29.jpg/800px-Centella_asiatica_%28Gotu_kola%29.jpg", emoji: "☘️", healed: false },
-        { common: "Turmeric", scientific: "Curcuma longa", use: "respiratory, skin, antimicrobial", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Curcuma_longa_rhizomes.jpg/800px-Curcuma_longa_rhizomes.jpg", emoji: "🟡", healed: false },
-        { common: "Malabar nut (Asuro)", scientific: "Adhatoda vasica", use: "respiratory, mucus, gum ailments", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg/800px-Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg", emoji: "🌼", healed: false },
-        { common: "Calamus (Bojo)", scientific: "Acorus calamus", use: "throat disorders, upset stomach", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acorus_calamus_%28Calamus%29.jpg/800px-Acorus_calamus_%28Calamus%29.jpg", emoji: "🌾", healed: false },
-        // FIXED: Yarsagumba now has a logical use/symptom
-        { common: "Caterpillar fungus (Yarsagumba)", scientific: "Cordyceps sinensis", use: "fatigue, low stamina, energy depletion", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg/800px-Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg", emoji: "🐛", healed: false },
-        { common: "Mugwort (Tite paati)", scientific: "Artemisia vulgaris", use: "cosmetics, pesticides, bedding", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Artemisia_vulgaris_%28Mugwort%29.jpg/800px-Artemisia_vulgaris_%28Mugwort%29.jpg", emoji: "🌿", healed: false },
-        { common: "Aloe vera (Ghiu kumari)", scientific: "Aloe vera", use: "skin, burns, hair, sunburn", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.jpg/800px-Aloe_vera_flower_inset.jpg", emoji: "🌵", healed: false }
-    ];
-
-    // DOM elements
-    const photoGrid = document.getElementById('photoGrid');
-    const ailmentSpan = document.getElementById('ailmentText');
-    const scientificInput = document.getElementById('scientificInput');
-    const submitBtn = document.getElementById('submitBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const hintBtn = document.getElementById('hintBtn');
-    const shuffleBtn = document.getElementById('shuffleBtn');
-    const journalBtn = document.getElementById('journalBtn');
-    const manualBtn = document.getElementById('manualBtn');
-    const feedback = document.getElementById('feedbackMsg');
-    const scoreHealedSpan = document.getElementById('scoreHealed');
-    const scoreAttemptsSpan = document.getElementById('scoreAttempts');
-    const streakSpan = document.getElementById('streakCount');
-    const plantsHealedCountSpan = document.getElementById('plantsHealedCount');
-    const currentLevelSpan = document.getElementById('currentLevel');
-    const progressFill = document.getElementById('progressFill');
-    const bossArea = document.getElementById('bossArea');
-    const characterHat = document.getElementById('characterHat');
-    const characterBox = document.getElementById('character');
-    const mouth = document.getElementById('mouth');
-    const leftPupil = document.getElementById('leftPupil');
-    const rightPupil = document.getElementById('rightPupil');
-    const heartElements = [document.getElementById('heart1'), document.getElementById('heart2'), document.getElementById('heart3')];
-    const popup = document.getElementById('popupMessage');
-    const sparkleContainer = document.getElementById('sparkleContainer');
-    const gameOverlay = document.getElementById('gameOverlay');
-    const restartBtn = document.getElementById('restartBtn');
-    const muteBtn = document.getElementById('muteBtn');
-    const journalModal = document.getElementById('journalModal');
-    const journalGrid = document.getElementById('journalGrid');
-    const closeJournal = document.getElementById('closeJournal');
-    const manualModal = document.getElementById('manualModal');
-    const closeManual = document.getElementById('closeManual');
-
-    // Mana elements
-    const manaFill = document.getElementById('manaFill');
-    const manaText = document.getElementById('manaText');
-    const spellReveal = document.getElementById('spellReveal');
-    const spellLightning = document.getElementById('spellLightning');
-    const spellHeal = document.getElementById('spellHeal');
-
-    // Sound system
-    let audioCtx = null;
-    let muted = false;
-    function initAudio() {
-        if (audioCtx) return;
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    function playSound(type) {
-        if (muted) return;
-        if (!audioCtx) initAudio();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        if (type === 'correct') {
-            osc.frequency.value = 880;
-            gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.3);
-        } else if (type === 'wrong') {
-            osc.frequency.value = 220;
-            gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.2);
-        } else if (type === 'gameover') {
-            osc.frequency.value = 110;
-            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.5);
-        } else if (type === 'hint') {
-            osc.frequency.value = 440;
-            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.15);
-        } else if (type === 'levelup') {
-            osc.frequency.value = 660;
-            gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.4);
-        } else if (type === 'sparkle') {
-            osc.frequency.value = 1200;
-            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.1);
-        } else if (type === 'spell') {
-            osc.frequency.value = 600;
-            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.2);
+    <script>
+        // ---------- shared utilities (sound, sparkles, popup, character) ----------
+        let audioCtx = null;
+        let muted = false;
+        function initAudio() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
-    }
+        function playSound(type) {
+            if (muted) return;
+            if (!audioCtx) initAudio();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
 
-    muteBtn.addEventListener('click', () => {
-        muted = !muted;
-        muteBtn.innerHTML = muted ? '<i class="fas fa-volume-mute"></i> mute' : '<i class="fas fa-volume-up"></i> sound';
-    });
-
-    // Sparkle effect
-    function createSparkle(x, y, count = 8) {
-        for (let i = 0; i < count; i++) {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = (x + (Math.random() * 100 - 50)) + 'px';
-            sparkle.style.top = (y + (Math.random() * 100 - 50)) + 'px';
-            sparkle.style.animationDuration = (0.5 + Math.random() * 1) + 's';
-            sparkle.style.background = `radial-gradient(circle, ${Math.random() > 0.5 ? 'gold' : 'orange'}, yellow)`;
-            sparkleContainer.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 1000);
-        }
-    }
-
-    // State
-    let currentCorrectPlant = null;
-    let currentOptions = [];
-    let selectedCardIndex = -1;
-    let healedCount = 0;
-    let uniqueHealedCount = 0;
-    let attemptCount = 0;
-    let health = 3;
-    let lock = false;
-    let streak = 0;
-    let level = 1;
-    let bossMode = false;
-    let bossQuestionsLeft = 0;
-    const BOSS_REQUIRED = 5;
-    let autoNextTimeout = null;
-
-    // Track if the player just saw the answer from a wrong attempt
-    let usedHintFromWrong = false;
-
-    // Mana
-    let mana = 0;
-    const MAX_MANA = 10;
-    function updateMana(change = 0) {
-        mana = Math.min(MAX_MANA, Math.max(0, mana + change));
-        manaFill.style.width = (mana / MAX_MANA * 100) + '%';
-        manaText.innerText = mana + '/' + MAX_MANA;
-        [spellReveal, spellLightning, spellHeal].forEach(btn => {
-            let cost = parseInt(btn.dataset.cost);
-            if (mana < cost) btn.classList.add('disabled');
-            else btn.classList.remove('disabled');
-        });
-    }
-
-    // Spells (updated costs)
-    function castReveal() {
-        if (mana < 4 || lock || health <= 0) return;
-        mana -= 4;
-        updateMana();
-        playSound('spell');
-        let correctIdx = currentOptions.findIndex(p => p.common === currentCorrectPlant.common);
-        if (correctIdx !== -1) {
-            let card = document.querySelector(`.plant-card[data-index="${correctIdx}"]`);
-            if (card) {
-                card.classList.add('correct-sparkle');
-                setTimeout(() => card.classList.remove('correct-sparkle'), 1500);
-                createSparkle(card.getBoundingClientRect().left + 50, card.getBoundingClientRect().top + 50, 10);
+            if (type === 'correct') {
+                osc.frequency.value = 880;
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.frequency.value = 220;
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
+            } else if (type === 'gameover') {
+                osc.frequency.value = 110;
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+            } else if (type === 'hint') {
+                osc.frequency.value = 440;
+                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.15);
+            } else if (type === 'levelup') {
+                osc.frequency.value = 660;
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } else if (type === 'sparkle') {
+                osc.frequency.value = 1200;
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.1);
+            } else if (type === 'spell') {
+                osc.frequency.value = 600;
+                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
             }
         }
-        feedback.innerHTML = `🔮 Reveal cast! The correct plant is highlighted.`;
-    }
-    function castLightning() {
-        if (mana < 2 || lock || health <= 0) return;
-        let wrongIndices = [];
-        currentOptions.forEach((p, idx) => {
-            if (p.common !== currentCorrectPlant.common) wrongIndices.push(idx);
-        });
-        if (wrongIndices.length === 0) return;
-        let randomWrong = wrongIndices[Math.floor(Math.random() * wrongIndices.length)];
-        let card = document.querySelector(`.plant-card[data-index="${randomWrong}"]`);
-        if (card) {
-            card.classList.add('disabled');
-            card.style.pointerEvents = 'none';
-            createSparkle(card.getBoundingClientRect().left + 50, card.getBoundingClientRect().top + 50, 8);
-        }
-        mana -= 2;
-        updateMana();
-        playSound('spell');
-        feedback.innerHTML = `⚡ Lightning struck! One wrong plant is disabled for this round.`;
-    }
-    function castHeal() {
-        if (mana < 4 || lock || health <= 0 || health >= 3) return;
-        health++;
-        updateCharacter();
-        heartElements[health-1].classList.add('pulse');
-        setTimeout(() => heartElements[health-1].classList.remove('pulse'), 300);
-        mana -= 4;
-        updateMana();
-        playSound('spell');
-        showPopup('💖 Healed by magic!', true);
-        feedback.innerHTML = `💖 Healing aura restored a heart!`;
-    }
-    spellReveal.addEventListener('click', castReveal);
-    spellLightning.addEventListener('click', castLightning);
-    spellHeal.addEventListener('click', castHeal);
 
-    // Update journal display
-    function updateJournal() {
-        plantsHealedCountSpan.innerText = `${uniqueHealedCount}/${plants.length}`;
-        let progressTarget = 2;
-        let progress = (uniqueHealedCount % progressTarget) / progressTarget * 100;
-        if (uniqueHealedCount === plants.length) progress = 100;
-        progressFill.style.width = progress + '%';
-
-        let newLevel = Math.floor(uniqueHealedCount / 2) + 1;
-        if (newLevel > 5) newLevel = 5;
-        if (newLevel !== level) {
-            level = newLevel;
-            currentLevelSpan.innerText = level;
-            playSound('levelup');
-            showPopup(`🌟 Level ${level}! 🌟`, true);
-            const hats = ['🧢', '🎩', '👑', '🪖', '🧙'];
-            characterHat.innerText = hats[level-1] || '🧢';
-            createSparkle(window.innerWidth/2, window.innerHeight/2, 20);
+        // sparkles
+        const sparkleContainer = document.getElementById('sparkleContainer');
+        function createSparkle(x, y, count = 8) {
+            for (let i = 0; i < count; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = (x + (Math.random() * 100 - 50)) + 'px';
+                sparkle.style.top = (y + (Math.random() * 100 - 50)) + 'px';
+                sparkle.style.animationDuration = (0.5 + Math.random() * 1) + 's';
+                sparkle.style.background = `radial-gradient(circle, ${Math.random() > 0.5 ? 'gold' : 'orange'}, yellow)`;
+                sparkleContainer.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 1000);
+            }
         }
 
-        if (uniqueHealedCount === plants.length && !bossMode) {
-            startBossMode();
-        }
-    }
-
-    function startBossMode() {
-        bossMode = true;
-        bossQuestionsLeft = BOSS_REQUIRED;
-        bossArea.style.display = 'block';
-        showPopup('👹 DISEASE DEMON APPEARS!', false);
-        playSound('gameover');
-        feedback.innerHTML = `BOSS BATTLE! Answer ${BOSS_REQUIRED} correctly in a row to win.`;
-        streak = 0;
-        streakSpan.innerText = streak;
-        createSparkle(window.innerWidth/2, window.innerHeight/2, 30);
-    }
-
-    function showPopup(text, isGood = true) {
-        popup.style.display = 'block';
-        popup.textContent = text;
-        popup.style.background = isGood ? '#d7f0c3' : '#f8c8b0';
-        popup.style.color = isGood ? '#1d4f1d' : '#711010';
-        setTimeout(() => popup.style.display = 'none', 1200);
-    }
-
-    function updateCharacter(mood = null) {
-        for (let i = 0; i < heartElements.length; i++) {
-            if (i < health) heartElements[i].classList.remove('dead');
-            else heartElements[i].classList.add('dead');
+        // popup
+        const popup = document.getElementById('popupMessage');
+        function showPopup(text, isGood = true) {
+            popup.style.display = 'block';
+            popup.textContent = text;
+            popup.style.background = isGood ? '#d7f0c3' : '#f8c8b0';
+            popup.style.color = isGood ? '#1d4f1d' : '#711010';
+            setTimeout(() => popup.style.display = 'none', 1200);
         }
 
-        if (health <= 0) {
-            mouth.className = 'mouth dead';
-            leftPupil.style.background = '#555';
-            rightPupil.style.background = '#555';
-            characterBox.classList.remove('dance');
-            return;
-        } else {
-            leftPupil.style.background = '#1d3b1d';
-            rightPupil.style.background = '#1d3b1d';
-        }
+        // character elements (shared, but game2 may not use all)
+        const character = document.getElementById('character');
+        const characterHat = document.getElementById('characterHat');
+        const mouth = document.getElementById('mouth');
+        const leftPupil = document.getElementById('leftPupil');
+        const rightPupil = document.getElementById('rightPupil');
+        const heartElements = [document.getElementById('heart1'), document.getElementById('heart2'), document.getElementById('heart3')];
+        let health = 3; // will be managed per game
 
-        if (mood === 'happy') {
-            mouth.className = 'mouth happy';
-            characterBox.classList.add('dance');
-        } else if (mood === 'sick') {
-            mouth.className = 'mouth sick';
-            characterBox.classList.remove('dance');
-        } else {
-            mouth.className = health === 1 ? 'mouth sick' : 'mouth suffering';
-            characterBox.classList.remove('dance');
-        }
-    }
-
-    function gameOver() {
-        playSound('gameover');
-        gameOverlay.style.display = 'flex';
-        lock = true;
-        characterBox.classList.remove('dance');
-        if (autoNextTimeout) clearTimeout(autoNextTimeout);
-    }
-
-    function restartGame() {
-        plants.forEach(p => p.healed = false);
-        health = 3;
-        healedCount = 0;
-        uniqueHealedCount = 0;
-        attemptCount = 0;
-        streak = 0;
-        level = 1;
-        bossMode = false;
-        bossQuestionsLeft = 0;
-        bossArea.style.display = 'none';
-        mana = 0;
-        updateMana();
-        scoreHealedSpan.innerText = '0';
-        scoreAttemptsSpan.innerText = '0';
-        streakSpan.innerText = '0';
-        currentLevelSpan.innerText = '1';
-        characterHat.innerText = '🧢';
-        updateCharacter('happy');
-        gameOverlay.style.display = 'none';
-        lock = false;
-        if (autoNextTimeout) clearTimeout(autoNextTimeout);
-        lastAttempt = { index: -1, input: '' };
-        usedHintFromWrong = false;
-        loadNewAilment();
-        updateJournal();
-    }
-
-    function getRandomOptions(correctPlant, count = 4) {
-        const others = plants.filter(p => p.common !== correctPlant.common);
-        const shuffled = others.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, count - 1);
-        const options = [...selected, correctPlant];
-        for (let i = options.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [options[i], options[j]] = [options[j], options[i]];
-        }
-        return options;
-    }
-
-    function renderPhotoGrid() {
-        photoGrid.innerHTML = '';
-        currentOptions.forEach((plant, idx) => {
-            const card = document.createElement('div');
-            card.className = `plant-card ${selectedCardIndex === idx ? 'selected' : ''} ${plant.healed ? 'healed' : ''}`;
-            card.dataset.index = idx;
-            card.dataset.scientific = plant.scientific;
-
-            const imgContainer = document.createElement('div');
-            imgContainer.className = 'image-container';
-
-            const img = document.createElement('img');
-            img.src = plant.image;
-            img.alt = plant.common;
-            img.loading = 'lazy';
-            img.onerror = function() {
-                const fallbackDiv = document.createElement('div');
-                fallbackDiv.className = 'fallback';
-                fallbackDiv.innerHTML = plant.emoji;
-                imgContainer.innerHTML = '';
-                imgContainer.appendChild(fallbackDiv);
-            };
-            imgContainer.appendChild(img);
-
-            const nameSpan = document.createElement('span');
-            nameSpan.textContent = plant.common;
-
-            card.appendChild(imgContainer);
-            card.appendChild(nameSpan);
-
-            card.addEventListener('click', () => {
-                if (lock || health <= 0) return;
-                if (selectedCardIndex !== -1) {
-                    const prev = document.querySelector(`.plant-card[data-index="${selectedCardIndex}"]`);
-                    if (prev) prev.classList.remove('selected');
-                }
-                selectedCardIndex = idx;
-                card.classList.add('selected');
-                lastAttempt.index = -1;
-            });
-
-            photoGrid.appendChild(card);
-        });
-    }
-
-    function loadNewAilment() {
-        if (health <= 0) { gameOver(); return; }
-        let randomIndex = Math.floor(Math.random() * plants.length);
-        currentCorrectPlant = plants[randomIndex];
-        currentOptions = getRandomOptions(currentCorrectPlant, 4);
-        selectedCardIndex = -1;
-        document.querySelectorAll('.plant-card').forEach(c => {
-            c.classList.remove('selected', 'disabled');
-            c.style.pointerEvents = '';
-        });
-        ailmentSpan.innerText = getSymptomFromUse(currentCorrectPlant);
-        scientificInput.value = '';
-        if (!bossMode) feedback.innerHTML = '💬 select a photo and type scientific name...';
-        lock = false;
-        updateCharacter(health === 3 ? 'happy' : 'sick');
-        renderPhotoGrid();
-        lastAttempt = { index: -1, input: '' };
-        usedHintFromWrong = false;
-    }
-
-    function getSymptomFromUse(plant) {
-        const symptoms = [
-            `I have ${plant.use.toLowerCase()}.`,
-            `Help! My ${plant.use.split(',')[0]} is acting up.`,
-            `Suffering from ${plant.use}.`,
-            `Need ${plant.common.split(' ')[0]}!`,
-            `My body aches with ${plant.use}.`
-        ];
-        return symptoms[Math.floor(Math.random() * symptoms.length)];
-    }
-
-    function handleShuffle() {
-        if (lock || health <= 0) return;
-        let newOptions = [...currentOptions];
-        for (let i = newOptions.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [newOptions[i], newOptions[j]] = [newOptions[j], newOptions[i]];
-        }
-        currentOptions = newOptions;
-        selectedCardIndex = -1;
-        lastAttempt.index = -1;
-        renderPhotoGrid();
-        playSound('hint');
-        feedback.innerHTML = '🃏 Cards shuffled! Make a new selection.';
-        createSparkle(window.innerWidth/2, window.innerHeight/2, 8);
-    }
-
-    let lastAttempt = { index: -1, input: '' };
-
-    function handleTreat() {
-        if (lock || health <= 0) return;
-        if (!currentCorrectPlant) return;
-
-        if (selectedCardIndex === -1) {
-            feedback.innerHTML = '⚠️ click a plant photo first!';
-            showPopup('🙏 select photo', false);
-            return;
-        }
-
-        const typedName = scientificInput.value.trim();
-        if (!typedName) {
-            feedback.innerHTML = '⚠️ type scientific name';
-            showPopup('📝 enter name', false);
-            return;
-        }
-
-        const selectedPlant = currentOptions[selectedCardIndex];
-        const correctSci = currentCorrectPlant.scientific.toLowerCase();
-        const typedClean = typedName.toLowerCase().replace(/\s+/g, ' ').trim();
-        const sciSimplified = correctSci.replace(/\./g, '').replace(/\s+/g, ' ');
-        const typedSimplified = typedClean.replace(/\./g, '').replace(/\s+/g, ' ');
-
-        const isScientificMatch = (typedSimplified === sciSimplified) || (typedClean === correctSci);
-        const isPlantMatch = (selectedPlant.common === currentCorrectPlant.common);
-
-        // Duplicate wrong check
-        if (!isScientificMatch || !isPlantMatch) {
-            if (lastAttempt.index === selectedCardIndex && lastAttempt.input === typedClean) {
-                feedback.innerHTML = '⏳ You already tried that combination. Please change your answer.';
-                showPopup('🔄 try something else', false);
+        function updateCharacter(mood = null, currentHealth = health) {
+            for (let i = 0; i < heartElements.length; i++) {
+                if (i < currentHealth) heartElements[i].classList.remove('dead');
+                else heartElements[i].classList.add('dead');
+            }
+            if (currentHealth <= 0) {
+                mouth.className = 'mouth dead';
+                leftPupil.style.background = '#555';
+                rightPupil.style.background = '#555';
+                character.classList.remove('dance');
                 return;
+            } else {
+                leftPupil.style.background = '#1d3b1d';
+                rightPupil.style.background = '#1d3b1d';
+            }
+            if (mood === 'happy') {
+                mouth.className = 'mouth happy';
+                character.classList.add('dance');
+            } else if (mood === 'sick') {
+                mouth.className = 'mouth sick';
+                character.classList.remove('dance');
+            } else {
+                mouth.className = currentHealth === 1 ? 'mouth sick' : 'mouth suffering';
+                character.classList.remove('dance');
             }
         }
 
-        attemptCount++;
-        scoreAttemptsSpan.innerText = attemptCount;
+        // game over overlay
+        const gameOverlay = document.getElementById('gameOverlay');
+        const restartBtn = document.getElementById('restartBtn');
+        function showGameOver() {
+            gameOverlay.style.display = 'flex';
+        }
+        function hideGameOver() {
+            gameOverlay.style.display = 'none';
+        }
 
-        if (isScientificMatch && isPlantMatch) {
-            // CORRECT
-            healedCount++;
-            streak++;
-            scoreHealedSpan.innerText = healedCount;
+        // manual modal (shared)
+        const manualModal = document.getElementById('manualModal');
+        const manualText = document.getElementById('manualText');
+        const closeManual = document.getElementById('closeManual');
+        function openManual(text) {
+            manualText.innerHTML = text;
+            manualModal.style.display = 'block';
+        }
+        closeManual.addEventListener('click', () => manualModal.style.display = 'none');
+        window.addEventListener('click', (e) => {
+            if (e.target === manualModal) manualModal.style.display = 'none';
+        });
+
+        // mute button (multiple instances, but we'll use one for both)
+        const muteBtns = document.querySelectorAll('.mute-btn');
+        muteBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                muted = !muted;
+                muteBtns.forEach(b => b.innerHTML = muted ? '<i class="fas fa-volume-mute"></i> mute' : '<i class="fas fa-volume-up"></i> sound');
+            });
+        });
+
+        // ---------- GAME 1: Plant Healer (full previous version) ----------
+        // (copied from earlier with minimal adjustments)
+        const plants = [
+            { common: "Holy Basil (Tulsi)", scientific: "Ocimum tenuiflorum", use: "throat pain, colds, infections", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg/800px-Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg", emoji: "🌿", healed: false },
+            { common: "Neem", scientific: "Azadirachta indica", use: "skin problems, blood purifier", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Azadirachta_indica_%28Neem%29_leaves.jpg/800px-Azadirachta_indica_%28Neem%29_leaves.jpg", emoji: "🌳", healed: false },
+            { common: "Heart-leaved moonseed (Gurjo)", scientific: "Tinospora cordifolia", use: "boost immunity, reduce sugar", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Tinospora_cordifolia_%28Guduchi%29.jpg/800px-Tinospora_cordifolia_%28Guduchi%29.jpg", emoji: "🌱", healed: false },
+            { common: "Asiatic pennywort (Ghod tapre)", scientific: "Centella asiatica", use: "memory, anxiety, burn healing", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Centella_asiatica_%28Gotu_kola%29.jpg/800px-Centella_asiatica_%28Gotu_kola%29.jpg", emoji: "☘️", healed: false },
+            { common: "Turmeric", scientific: "Curcuma longa", use: "respiratory, skin, antimicrobial", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Curcuma_longa_rhizomes.jpg/800px-Curcuma_longa_rhizomes.jpg", emoji: "🟡", healed: false },
+            { common: "Malabar nut (Asuro)", scientific: "Adhatoda vasica", use: "respiratory, mucus, gum ailments", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg/800px-Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg", emoji: "🌼", healed: false },
+            { common: "Calamus (Bojo)", scientific: "Acorus calamus", use: "throat disorders, upset stomach", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acorus_calamus_%28Calamus%29.jpg/800px-Acorus_calamus_%28Calamus%29.jpg", emoji: "🌾", healed: false },
+            { common: "Caterpillar fungus (Yarsagumba)", scientific: "Cordyceps sinensis", use: "fatigue, low stamina, energy depletion", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg/800px-Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg", emoji: "🐛", healed: false },
+            { common: "Mugwort (Tite paati)", scientific: "Artemisia vulgaris", use: "cosmetics, pesticides, bedding", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Artemisia_vulgaris_%28Mugwort%29.jpg/800px-Artemisia_vulgaris_%28Mugwort%29.jpg", emoji: "🌿", healed: false },
+            { common: "Aloe vera (Ghiu kumari)", scientific: "Aloe vera", use: "skin, burns, hair, sunburn", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.jpg/800px-Aloe_vera_flower_inset.jpg", emoji: "🌵", healed: false }
+        ];
+
+        // Game1 DOM elements
+        const photoGrid = document.getElementById('photoGrid');
+        const ailmentSpan = document.getElementById('ailmentText');
+        const scientificInput = document.getElementById('scientificInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const hintBtn = document.getElementById('hintBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const journalBtn = document.getElementById('journalBtn');
+        const feedback = document.getElementById('feedbackMsg');
+        const scoreHealedSpan = document.getElementById('scoreHealed');
+        const scoreAttemptsSpan = document.getElementById('scoreAttempts');
+        const streakSpan = document.getElementById('streakCount');
+        const plantsHealedCountSpan = document.getElementById('plantsHealedCount');
+        const currentLevelSpan = document.getElementById('currentLevel');
+        const progressFill = document.getElementById('progressFill');
+        const bossArea = document.getElementById('bossArea');
+        const manaFill = document.getElementById('manaFill');
+        const manaText = document.getElementById('manaText');
+        const spellReveal = document.getElementById('spellReveal');
+        const spellLightning = document.getElementById('spellLightning');
+        const spellHeal = document.getElementById('spellHeal');
+        const journalGrid = document.getElementById('journalGrid');
+        const closeJournal = document.getElementById('closeJournal');
+        const manualBtn1 = document.getElementById('manualBtn1');
+
+        // Game1 state
+        let currentCorrectPlant = null;
+        let currentOptions = [];
+        let selectedCardIndex = -1;
+        let healedCount = 0;
+        let uniqueHealedCount = 0;
+        let attemptCount = 0;
+        let game1Health = 3;
+        let lock = false;
+        let streak = 0;
+        let level = 1;
+        let bossMode = false;
+        let bossQuestionsLeft = 0;
+        const BOSS_REQUIRED = 5;
+        let autoNextTimeout = null;
+        let usedHintFromWrong = false;
+        let mana = 0;
+        const MAX_MANA = 10;
+        let lastAttempt = { index: -1, input: '' };
+
+        function updateMana(change = 0) {
+            mana = Math.min(MAX_MANA, Math.max(0, mana + change));
+            manaFill.style.width = (mana / MAX_MANA * 100) + '%';
+            manaText.innerText = mana + '/' + MAX_MANA;
+            [spellReveal, spellLightning, spellHeal].forEach(btn => {
+                let cost = parseInt(btn.dataset.cost);
+                if (mana < cost) btn.classList.add('disabled');
+                else btn.classList.remove('disabled');
+            });
+        }
+
+        function castReveal() {
+            if (mana < 4 || lock || game1Health <= 0) return;
+            mana -= 4;
+            updateMana();
+            playSound('spell');
+            let correctIdx = currentOptions.findIndex(p => p.common === currentCorrectPlant.common);
+            if (correctIdx !== -1) {
+                let card = document.querySelector(`.plant-card[data-index="${correctIdx}"]`);
+                if (card) {
+                    card.classList.add('correct-sparkle');
+                    setTimeout(() => card.classList.remove('correct-sparkle'), 1500);
+                    createSparkle(card.getBoundingClientRect().left + 50, card.getBoundingClientRect().top + 50, 10);
+                }
+            }
+            feedback.innerHTML = `🔮 Reveal cast! The correct plant is highlighted.`;
+        }
+        function castLightning() {
+            if (mana < 2 || lock || game1Health <= 0) return;
+            let wrongIndices = [];
+            currentOptions.forEach((p, idx) => {
+                if (p.common !== currentCorrectPlant.common) wrongIndices.push(idx);
+            });
+            if (wrongIndices.length === 0) return;
+            let randomWrong = wrongIndices[Math.floor(Math.random() * wrongIndices.length)];
+            let card = document.querySelector(`.plant-card[data-index="${randomWrong}"]`);
+            if (card) {
+                card.classList.add('disabled');
+                card.style.pointerEvents = 'none';
+                createSparkle(card.getBoundingClientRect().left + 50, card.getBoundingClientRect().top + 50, 8);
+            }
+            mana -= 2;
+            updateMana();
+            playSound('spell');
+            feedback.innerHTML = `⚡ Lightning struck! One wrong plant is disabled for this round.`;
+        }
+        function castHeal() {
+            if (mana < 4 || lock || game1Health <= 0 || game1Health >= 3) return;
+            game1Health++;
+            updateCharacter(game1Health === 3 ? 'happy' : 'sick', game1Health);
+            heartElements[game1Health-1].classList.add('pulse');
+            setTimeout(() => heartElements[game1Health-1].classList.remove('pulse'), 300);
+            mana -= 4;
+            updateMana();
+            playSound('spell');
+            showPopup('💖 Healed by magic!', true);
+            feedback.innerHTML = `💖 Healing aura restored a heart!`;
+        }
+        spellReveal.addEventListener('click', castReveal);
+        spellLightning.addEventListener('click', castLightning);
+        spellHeal.addEventListener('click', castHeal);
+
+        function updateJournal() {
+            plantsHealedCountSpan.innerText = `${uniqueHealedCount}/${plants.length}`;
+            let progressTarget = 2;
+            let progress = (uniqueHealedCount % progressTarget) / progressTarget * 100;
+            if (uniqueHealedCount === plants.length) progress = 100;
+            progressFill.style.width = progress + '%';
+
+            let newLevel = Math.floor(uniqueHealedCount / 2) + 1;
+            if (newLevel > 5) newLevel = 5;
+            if (newLevel !== level) {
+                level = newLevel;
+                currentLevelSpan.innerText = level;
+                playSound('levelup');
+                showPopup(`🌟 Level ${level}! 🌟`, true);
+                const hats = ['🧢', '🎩', '👑', '🪖', '🧙'];
+                characterHat.innerText = hats[level-1] || '🧢';
+                createSparkle(window.innerWidth/2, window.innerHeight/2, 20);
+            }
+
+            if (uniqueHealedCount === plants.length && !bossMode) {
+                startBossMode();
+            }
+        }
+
+        function startBossMode() {
+            bossMode = true;
+            bossQuestionsLeft = BOSS_REQUIRED;
+            bossArea.style.display = 'block';
+            showPopup('👹 DISEASE DEMON APPEARS!', false);
+            playSound('gameover');
+            feedback.innerHTML = `BOSS BATTLE! Answer ${BOSS_REQUIRED} correctly in a row to win.`;
+            streak = 0;
             streakSpan.innerText = streak;
+            createSparkle(window.innerWidth/2, window.innerHeight/2, 30);
+        }
 
-            // Mana gain
-            updateMana(1);
-
-            // sparkle
-            const correctCard = document.querySelector(`.plant-card[data-index="${selectedCardIndex}"]`);
-            if (correctCard) {
-                correctCard.classList.add('correct-sparkle');
-                const rect = correctCard.getBoundingClientRect();
-                createSparkle(rect.left + rect.width/2, rect.top + rect.height/2, 12);
-                playSound('sparkle');
-                setTimeout(() => correctCard.classList.remove('correct-sparkle'), 800);
+        function getRandomOptions(correctPlant, count = 4) {
+            const others = plants.filter(p => p.common !== correctPlant.common);
+            const shuffled = others.sort(() => 0.5 - Math.random());
+            const selected = shuffled.slice(0, count - 1);
+            const options = [...selected, correctPlant];
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
             }
+            return options;
+        }
 
-            // ----- HEART GAIN LOGIC (with anti‑hint rule) -----
-            let heartGained = false;
+        function renderPhotoGrid() {
+            photoGrid.innerHTML = '';
+            currentOptions.forEach((plant, idx) => {
+                const card = document.createElement('div');
+                card.className = `plant-card ${selectedCardIndex === idx ? 'selected' : ''} ${plant.healed ? 'healed' : ''}`;
+                card.dataset.index = idx;
+                card.dataset.scientific = plant.scientific;
 
-            // Unique heal (first time for this plant)
-            if (!currentCorrectPlant.healed) {
-                currentCorrectPlant.healed = true;
-                uniqueHealedCount++;
-                if (!usedHintFromWrong && health < 3) {
-                    health++;
-                    heartElements[health-1].classList.add('pulse');
-                    setTimeout(() => heartElements[health-1].classList.remove('pulse'), 300);
-                    heartGained = true;
-                }
-                updateJournal();
-            }
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'image-container';
 
-            // Streak bonus heart (every 3 correct)
-            if (streak % 3 === 0 && health < 3 && !usedHintFromWrong && !heartGained) {
-                health++;
-                showPopup('🔥 streak! +❤️', true);
-                heartElements[health-1].classList.add('pulse');
-                setTimeout(() => heartElements[health-1].classList.remove('pulse'), 300);
-                heartGained = true;
-            }
+                const img = document.createElement('img');
+                img.src = plant.image;
+                img.alt = plant.common;
+                img.loading = 'lazy';
+                img.onerror = function() {
+                    const fallbackDiv = document.createElement('div');
+                    fallbackDiv.className = 'fallback';
+                    fallbackDiv.innerHTML = plant.emoji;
+                    imgContainer.innerHTML = '';
+                    imgContainer.appendChild(fallbackDiv);
+                };
+                imgContainer.appendChild(img);
 
-            if (heartGained) {
-                showPopup('💚 heart restored!', true);
-            } else if (usedHintFromWrong) {
-                feedback.innerHTML = `✅ correct! (no heart – you used the hint) ${currentCorrectPlant.common} (${currentCorrectPlant.scientific})`;
-            } else {
-                feedback.innerHTML = `✅ correct! ${currentCorrectPlant.common} (${currentCorrectPlant.scientific})`;
-            }
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = plant.common;
 
-            updateCharacter('happy');
-            playSound('correct');
-            document.querySelector('.character-box').classList.add('glow');
-            setTimeout(() => document.querySelector('.character-box').classList.remove('glow'), 500);
+                card.appendChild(imgContainer);
+                card.appendChild(nameSpan);
 
-            // Boss mode
-            if (bossMode) {
-                bossQuestionsLeft--;
-                if (bossQuestionsLeft <= 0) {
-                    showPopup('🎉 YOU DEFEATED THE DEMON! VILLAGE SAVED!', true);
-                    bossMode = false;
-                    bossArea.style.display = 'none';
-                    feedback.innerHTML = '🏆 VICTORY! You saved the village! Play again?';
-                    lock = true;
-                    createSparkle(window.innerWidth/2, window.innerHeight/2, 40);
-                    return;
-                } else {
-                    feedback.innerHTML += ` BOSS: ${bossQuestionsLeft} more correct to go!`;
-                }
-            }
+                card.addEventListener('click', () => {
+                    if (lock || game1Health <= 0) return;
+                    if (selectedCardIndex !== -1) {
+                        const prev = document.querySelector(`.plant-card[data-index="${selectedCardIndex}"]`);
+                        if (prev) prev.classList.remove('selected');
+                    }
+                    selectedCardIndex = idx;
+                    card.classList.add('selected');
+                    lastAttempt.index = -1;
+                });
 
-            lock = true;
-            if (autoNextTimeout) clearTimeout(autoNextTimeout);
-            autoNextTimeout = setTimeout(() => {
-                if (health > 0 && !bossMode) {
-                    loadNewAilment();
-                } else if (bossMode && bossQuestionsLeft > 0) {
-                    loadNewAilment();
-                }
-                lock = false;
-                autoNextTimeout = null;
-            }, 1500);
+                photoGrid.appendChild(card);
+            });
+        }
 
-            // Reset attempt trackers
+        function loadNewAilment() {
+            if (game1Health <= 0) { gameOver1(); return; }
+            let randomIndex = Math.floor(Math.random() * plants.length);
+            currentCorrectPlant = plants[randomIndex];
+            currentOptions = getRandomOptions(currentCorrectPlant, 4);
+            selectedCardIndex = -1;
+            document.querySelectorAll('.plant-card').forEach(c => {
+                c.classList.remove('selected', 'disabled');
+                c.style.pointerEvents = '';
+            });
+            ailmentSpan.innerText = getSymptomFromUse(currentCorrectPlant);
+            scientificInput.value = '';
+            if (!bossMode) feedback.innerHTML = '💬 select a photo and type scientific name...';
+            lock = false;
+            updateCharacter(game1Health === 3 ? 'happy' : 'sick', game1Health);
+            renderPhotoGrid();
             lastAttempt = { index: -1, input: '' };
             usedHintFromWrong = false;
+        }
 
-        } else {
-            // WRONG
-            lastAttempt = { index: selectedCardIndex, input: typedClean };
+        function getSymptomFromUse(plant) {
+            const use = plant.use.toLowerCase();
+            const templates = [
+                `I have ${use}.`,
+                `I'm suffering from ${use}.`,
+                `My ${use.split(',')[0]} is bothering me.`,
+                `Please help with ${use}.`,
+                `I need relief from ${use}.`
+            ];
+            return templates[Math.floor(Math.random() * templates.length)];
+        }
 
-            // Show the correct plant in feedback and set the hint flag
-            let errorMsg = `❌ wrong. The correct plant is ${currentCorrectPlant.common} (${currentCorrectPlant.scientific}).`;
-            if (!isPlantMatch) errorMsg += ' You picked the wrong photo.';
-            else if (!isScientificMatch) errorMsg += ' Scientific name incorrect.';
-            feedback.innerHTML = errorMsg + ' Try again or use hint.';
-            usedHintFromWrong = true;
-
-            streak = 0;
-            streakSpan.innerText = '0';
-
-            if (health > 0) {
-                let lostIndex = health - 1;
-                heartElements[lostIndex].classList.add('pulse');
-                setTimeout(() => heartElements[lostIndex].classList.remove('pulse'), 300);
+        function handleShuffle() {
+            if (lock || game1Health <= 0) return;
+            let newOptions = [...currentOptions];
+            for (let i = newOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newOptions[i], newOptions[j]] = [newOptions[j], newOptions[i]];
             }
-            health--;
-            updateCharacter('sick');
-            showPopup('😫 wrong... -❤️', false);
-            playSound('wrong');
-            document.querySelector('.character-box').classList.add('shake');
-            setTimeout(() => document.querySelector('.character-box').classList.remove('shake'), 300);
+            currentOptions = newOptions;
+            selectedCardIndex = -1;
+            lastAttempt.index = -1;
+            renderPhotoGrid();
+            playSound('hint');
+            feedback.innerHTML = '🃏 Cards shuffled! Make a new selection.';
+            createSparkle(window.innerWidth/2, window.innerHeight/2, 8);
+        }
 
-            if (health <= 0) {
-                updateCharacter('dead');
-                gameOver();
-                feedback.innerHTML = '💔 character died... restart';
+        function handleTreat() {
+            if (lock || game1Health <= 0) return;
+            if (!currentCorrectPlant) return;
+
+            if (selectedCardIndex === -1) {
+                feedback.innerHTML = '⚠️ click a plant photo first!';
+                showPopup('🙏 select photo', false);
                 return;
             }
 
-            if (bossMode) {
-                bossQuestionsLeft = BOSS_REQUIRED;
-                feedback.innerHTML = `BOSS: You lost focus! Need ${BOSS_REQUIRED} correct again.`;
+            const typedName = scientificInput.value.trim();
+            if (!typedName) {
+                feedback.innerHTML = '⚠️ type scientific name';
+                showPopup('📝 enter name', false);
+                return;
             }
 
-            submitBtn.disabled = true;
-            setTimeout(() => {
-                if (health > 0) submitBtn.disabled = false;
-            }, 800);
+            const selectedPlant = currentOptions[selectedCardIndex];
+            const correctSci = currentCorrectPlant.scientific.toLowerCase();
+            const typedClean = typedName.toLowerCase().replace(/\s+/g, ' ').trim();
+            const sciSimplified = correctSci.replace(/\./g, '').replace(/\s+/g, ' ');
+            const typedSimplified = typedClean.replace(/\./g, '').replace(/\s+/g, ' ');
+
+            const isScientificMatch = (typedSimplified === sciSimplified) || (typedClean === correctSci);
+            const isPlantMatch = (selectedPlant.common === currentCorrectPlant.common);
+
+            if (!isScientificMatch || !isPlantMatch) {
+                if (lastAttempt.index === selectedCardIndex && lastAttempt.input === typedClean) {
+                    feedback.innerHTML = '⏳ You already tried that combination. Please change your answer.';
+                    showPopup('🔄 try something else', false);
+                    return;
+                }
+            }
+
+            attemptCount++;
+            scoreAttemptsSpan.innerText = attemptCount;
+
+            if (isScientificMatch && isPlantMatch) {
+                healedCount++;
+                streak++;
+                scoreHealedSpan.innerText = healedCount;
+                streakSpan.innerText = streak;
+                updateMana(1);
+
+                const correctCard = document.querySelector(`.plant-card[data-index="${selectedCardIndex}"]`);
+                if (correctCard) {
+                    correctCard.classList.add('correct-sparkle');
+                    const rect = correctCard.getBoundingClientRect();
+                    createSparkle(rect.left + rect.width/2, rect.top + rect.height/2, 12);
+                    playSound('sparkle');
+                    setTimeout(() => correctCard.classList.remove('correct-sparkle'), 800);
+                }
+
+                let heartGained = false;
+                if (!currentCorrectPlant.healed) {
+                    currentCorrectPlant.healed = true;
+                    uniqueHealedCount++;
+                    if (!usedHintFromWrong && game1Health < 3) {
+                        game1Health++;
+                        heartElements[game1Health-1].classList.add('pulse');
+                        setTimeout(() => heartElements[game1Health-1].classList.remove('pulse'), 300);
+                        heartGained = true;
+                    }
+                    updateJournal();
+                }
+
+                if (streak % 3 === 0 && game1Health < 3 && !usedHintFromWrong && !heartGained) {
+                    game1Health++;
+                    showPopup('🔥 streak! +❤️', true);
+                    heartElements[game1Health-1].classList.add('pulse');
+                    setTimeout(() => heartElements[game1Health-1].classList.remove('pulse'), 300);
+                    heartGained = true;
+                }
+
+                if (heartGained) showPopup('💚 heart restored!', true);
+                else if (usedHintFromWrong) feedback.innerHTML = `✅ correct! (no heart – you used the hint) ${currentCorrectPlant.common} (${currentCorrectPlant.scientific})`;
+                else feedback.innerHTML = `✅ correct! ${currentCorrectPlant.common} (${currentCorrectPlant.scientific})`;
+
+                updateCharacter('happy', game1Health);
+                playSound('correct');
+                character.classList.add('glow');
+                setTimeout(() => character.classList.remove('glow'), 500);
+
+                if (bossMode) {
+                    bossQuestionsLeft--;
+                    if (bossQuestionsLeft <= 0) {
+                        showPopup('🎉 YOU DEFEATED THE DEMON! VILLAGE SAVED!', true);
+                        bossMode = false;
+                        bossArea.style.display = 'none';
+                        feedback.innerHTML = '🏆 VICTORY! You saved the village! Play again?';
+                        lock = true;
+                        createSparkle(window.innerWidth/2, window.innerHeight/2, 40);
+                        return;
+                    } else {
+                        feedback.innerHTML += ` BOSS: ${bossQuestionsLeft} more correct to go!`;
+                    }
+                }
+
+                lock = true;
+                if (autoNextTimeout) clearTimeout(autoNextTimeout);
+                autoNextTimeout = setTimeout(() => {
+                    if (game1Health > 0 && !bossMode) loadNewAilment();
+                    else if (bossMode && bossQuestionsLeft > 0) loadNewAilment();
+                    lock = false;
+                    autoNextTimeout = null;
+                }, 1500);
+
+                lastAttempt = { index: -1, input: '' };
+                usedHintFromWrong = false;
+            } else {
+                lastAttempt = { index: selectedCardIndex, input: typedClean };
+                let errorMsg = `❌ wrong. The correct plant is ${currentCorrectPlant.common} (${currentCorrectPlant.scientific}).`;
+                if (!isPlantMatch) errorMsg += ' You picked the wrong photo.';
+                else if (!isScientificMatch) errorMsg += ' Scientific name incorrect.';
+                feedback.innerHTML = errorMsg + ' Try again or use hint.';
+                usedHintFromWrong = true;
+
+                streak = 0;
+                streakSpan.innerText = '0';
+
+                if (game1Health > 0) {
+                    let lostIndex = game1Health - 1;
+                    heartElements[lostIndex].classList.add('pulse');
+                    setTimeout(() => heartElements[lostIndex].classList.remove('pulse'), 300);
+                }
+                game1Health--;
+                updateCharacter('sick', game1Health);
+                showPopup('😫 wrong... -❤️', false);
+                playSound('wrong');
+                character.classList.add('shake');
+                setTimeout(() => character.classList.remove('shake'), 300);
+
+                if (game1Health <= 0) {
+                    updateCharacter('dead', 0);
+                    gameOver1();
+                    feedback.innerHTML = '💔 character died... restart';
+                    return;
+                }
+
+                if (bossMode) {
+                    bossQuestionsLeft = BOSS_REQUIRED;
+                    feedback.innerHTML = `BOSS: You lost focus! Need ${BOSS_REQUIRED} correct again.`;
+                }
+
+                submitBtn.disabled = true;
+                setTimeout(() => {
+                    if (game1Health > 0) submitBtn.disabled = false;
+                }, 800);
+            }
+            updateCharacter(undefined, game1Health);
         }
-        updateCharacter();
-    }
 
-    function handleHint() {
-        if (lock || health <= 0) return;
-        if (!currentCorrectPlant) return;
-        playSound('hint');
-        feedback.innerHTML = `💡 Hint: The plant you need is ${currentCorrectPlant.common}. Its scientific name starts with "${currentCorrectPlant.scientific.charAt(0)}".`;
-        hintBtn.style.transform = 'scale(0.95)';
-        setTimeout(() => hintBtn.style.transform = '', 150);
-        createSparkle(window.innerWidth/2, window.innerHeight/2, 5);
-    }
+        function gameOver1() {
+            playSound('gameover');
+            showGameOver();
+            lock = true;
+            if (autoNextTimeout) clearTimeout(autoNextTimeout);
+        }
 
-    function handleNext() {
-        if (health <= 0) { gameOver(); return; }
-        if (autoNextTimeout) clearTimeout(autoNextTimeout);
-        lock = false;
-        loadNewAilment();
-    }
+        function restartGame1() {
+            plants.forEach(p => p.healed = false);
+            game1Health = 3;
+            healedCount = 0;
+            uniqueHealedCount = 0;
+            attemptCount = 0;
+            streak = 0;
+            level = 1;
+            bossMode = false;
+            bossQuestionsLeft = 0;
+            bossArea.style.display = 'none';
+            mana = 0;
+            updateMana();
+            scoreHealedSpan.innerText = '0';
+            scoreAttemptsSpan.innerText = '0';
+            streakSpan.innerText = '0';
+            currentLevelSpan.innerText = '1';
+            characterHat.innerText = '🧢';
+            updateCharacter('happy', game1Health);
+            hideGameOver();
+            lock = false;
+            if (autoNextTimeout) clearTimeout(autoNextTimeout);
+            lastAttempt = { index: -1, input: '' };
+            usedHintFromWrong = false;
+            loadNewAilment();
+            updateJournal();
+        }
 
-    // Journal modal
-    function openJournal() {
-        journalGrid.innerHTML = '';
-        plants.forEach(p => {
-            let item = document.createElement('div');
-            item.className = `journal-item ${p.healed ? 'healed' : ''}`;
-            item.innerHTML = `
-                <img src="${p.image}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${p.emoji}</text></svg>'">
-                <span>${p.common}</span>
-            `;
-            journalGrid.appendChild(item);
+        function handleHint1() {
+            if (lock || game1Health <= 0) return;
+            if (!currentCorrectPlant) return;
+            playSound('hint');
+            feedback.innerHTML = `💡 Hint: The plant you need is ${currentCorrectPlant.common}. Its scientific name starts with "${currentCorrectPlant.scientific.charAt(0)}".`;
+            hintBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => hintBtn.style.transform = '', 150);
+            createSparkle(window.innerWidth/2, window.innerHeight/2, 5);
+        }
+
+        function handleNext() {
+            if (game1Health <= 0) { gameOver1(); return; }
+            if (autoNextTimeout) clearTimeout(autoNextTimeout);
+            lock = false;
+            loadNewAilment();
+        }
+
+        // Journal modal
+        function openJournal() {
+            journalGrid.innerHTML = '';
+            plants.forEach(p => {
+                let item = document.createElement('div');
+                item.className = `journal-item ${p.healed ? 'healed' : ''}`;
+                item.innerHTML = `
+                    <img src="${p.image}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${p.emoji}</text></svg>'">
+                    <span>${p.common}</span>
+                `;
+                journalGrid.appendChild(item);
+            });
+            document.getElementById('journalModal').style.display = 'block';
+        }
+        journalBtn.addEventListener('click', openJournal);
+        closeJournal.addEventListener('click', () => document.getElementById('journalModal').style.display = 'none');
+
+        submitBtn.addEventListener('click', handleTreat);
+        nextBtn.addEventListener('click', handleNext);
+        hintBtn.addEventListener('click', handleHint1);
+        shuffleBtn.addEventListener('click', handleShuffle);
+        scientificInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); submitBtn.click(); }
         });
-        journalModal.style.display = 'block';
-    }
-    journalBtn.addEventListener('click', openJournal);
-    closeJournal.addEventListener('click', () => journalModal.style.display = 'none');
-    window.addEventListener('click', (e) => {
-        if (e.target === journalModal) journalModal.style.display = 'none';
-    });
+        scientificInput.addEventListener('input', () => { lastAttempt.input = ''; });
 
-    // Manual modal
-    function openManual() {
-        manualModal.style.display = 'block';
-    }
-    manualBtn.addEventListener('click', openManual);
-    closeManual.addEventListener('click', () => manualModal.style.display = 'none');
-    window.addEventListener('click', (e) => {
-        if (e.target === manualModal) manualModal.style.display = 'none';
-    });
+        // manual for game1
+        manualBtn1.addEventListener('click', () => {
+            openManual(`
+                <p><i class="fas fa-bullseye"></i><strong>Objective:</strong> Heal all 10 plants to unlock the <strong>Disease Demon boss</strong>. Defeat the boss by answering 5 questions correctly in a row.</p>
+                <p><i class="fas fa-play"></i><strong>How to Play:</strong></p>
+                <ul>
+                    <li>Click on a plant photo that matches the symptom shown above.</li>
+                    <li>Type the plant's scientific name (case‑insensitive, dots ignored).</li>
+                    <li>Press <strong>Treat</strong> (or Enter) to submit.</li>
+                    <li>After a correct answer, the game automatically moves to a new plant (1.5 sec delay).</li>
+                </ul>
+                <p><i class="fas fa-heart"></i><strong>Hearts & Health:</strong> Start with 3 hearts. Wrong answers cost 1 heart. Gain hearts by: healing a new plant, streak of 3 correct. <span style="color:#b34a4a;">⚠️ If you get a wrong answer and then use the displayed correct name, you will NOT gain a heart.</span></p>
+                <p><i class="fas fa-bolt"></i><strong>Mana & Spells:</strong> Earn 1 mana per correct answer (max 10). Spells: Reveal (4 mana), Lightning (2 mana), Heal (4 mana).</p>
+                <p><i class="fas fa-level-up-alt"></i><strong>Levels:</strong> Every 2 unique plants healed increases your level (up to 5). Your hat changes!</p>
+            `);
+        });
 
-    // Event listeners
-    submitBtn.addEventListener('click', handleTreat);
-    nextBtn.addEventListener('click', handleNext);
-    restartBtn.addEventListener('click', restartGame);
-    hintBtn.addEventListener('click', handleHint);
-    shuffleBtn.addEventListener('click', handleShuffle);
+        // ---------- GAME 2: Kingdom Classification Challenge ----------
+        const kingdomFact = document.getElementById('kingdomFact');
+        const kingdomOptions = document.getElementById('kingdomOptions');
+        const nextFactBtn = document.getElementById('nextFactBtn');
+        const kingdomFeedback = document.getElementById('kingdomFeedback');
+        const kingdomScoreSpan = document.getElementById('kingdomScore');
+        const kingdomAttemptsSpan = document.getElementById('kingdomAttempts');
+        const kingdomStreakSpan = document.getElementById('kingdomStreak');
+        const hintBtn2 = document.getElementById('hintBtn2');
+        const manualBtn2 = document.getElementById('manualBtn2');
+        const muteBtn2 = document.getElementById('muteBtn2'); // already handled
 
-    scientificInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            submitBtn.click();
+        // Data for kingdom game
+        const kingdomData = [
+            { group: "Algae", facts: ["Plant body is a thallus (no roots/stems/leaves)", "Found in water or marshy places", "Examples: Spirogyra, Volvox, Chlamydomonas"] },
+            { group: "Bryophyta", facts: ["Amphibian plants (live on land but need water for fertilization)", "Lack vascular tissue", "Dominant gametophytic generation", "Examples: Moss, Marchantia, Riccia"] },
+            { group: "Pteridophyta", facts: ["Non-flowering plants with feather-like leaves", "Produce spores in brown spots called sori on lower leaf surface"] },
+            { group: "Gymnosperms", facts: ["Bear cones instead of flowers", "Have naked seeds (not enclosed in fruits)"] },
+            { group: "Angiosperms (Monocot)", facts: ["Flowering plants with one cotyledon", "Leaves have parallel venation", "Fibrous root system"] },
+            { group: "Angiosperms (Dicot)", facts: ["Flowering plants with two cotyledons", "Leaves have reticulate (net-like) venation", "Taproot system"] },
+            { group: "Porifera", facts: ["First multicellular animals; have pores (ostia and osculum)", "Water canal system", "Example: Sponges"] },
+            { group: "Coelenterata", facts: ["Hollow body cavity called coelenteron", "Have tentacles with stinging cells (nematocysts)", "Example: Jellyfish, Hydra"] },
+            { group: "Platyhelminthes", facts: ["Ribbon-like, flatworms", "Triploblastic", "Mostly parasites and hermaphrodites", "Example: Tapeworm, Planaria"] },
+            { group: "Nemathelminthes", facts: ["Elongated, cylindrical roundworms", "Bilaterally symmetrical and triploblastic", "Example: Roundworm, Hookworm"] },
+            { group: "Annelida", facts: ["Metamerically segmented worms", "Well-developed circulatory system with haemoglobin", "Example: Earthworm, Leech"] },
+            { group: "Arthropoda", facts: ["Largest phylum; jointed legs", "Hard chitin exoskeleton", "Example: Insects, spiders, crabs"] },
+            { group: "Mollusca", facts: ["Soft-bodied animals with a mantle", "Often secrete a calcareous shell", "Asymmetrical bodies", "Example: Snail, Octopus"] },
+            { group: "Echinodermata", facts: ["Spiny-skinned marine animals", "Triploblastic and radially symmetrical", "Move via tube feet", "Example: Starfish, Sea urchin"] },
+            { group: "Pisces", facts: ["Fish; cold-blooded, streamlined with scales", "Breathe through gills", "Two-chambered heart"] },
+            { group: "Amphibia", facts: ["Can live on land and water", "Moist skin, three-chambered heart", "Example: Frog, Salamander"] },
+            { group: "Reptilia", facts: ["Dry, scaly skin; three-chambered heart (crocodile four)", "Breathe through lungs", "Example: Snake, Lizard"] },
+            { group: "Aves", facts: ["Birds; warm-blooded, feathers", "Pneumatic (hollow) bones", "Four-chambered heart"] },
+            { group: "Mammalia", facts: ["Most advanced; have hair and mammary glands", "Four-chambered heart", "Example: Humans, dogs, whales"] }
+        ];
+
+        let game2Health = 3; // using same hearts
+        let game2Score = 0;
+        let game2Attempts = 0;
+        let game2Streak = 0;
+        let currentFact = null;
+        let currentCorrectGroup = null;
+        let currentOptions2 = [];
+        let lock2 = false;
+        let lastSelectedIndex = -1;
+
+        function pickRandomFact() {
+            const randomGroup = kingdomData[Math.floor(Math.random() * kingdomData.length)];
+            const fact = randomGroup.facts[Math.floor(Math.random() * randomGroup.facts.length)];
+            return { fact, group: randomGroup.group };
         }
-    });
-    scientificInput.addEventListener('input', () => {
-        lastAttempt.input = '';
-    });
 
-    document.addEventListener('mousemove', (e) => {
-        if (health <= 0) return;
-        const x = (e.clientX / window.innerWidth - 0.5) * 10;
-        const y = (e.clientY / window.innerHeight - 0.5) * 8;
-        leftPupil.style.transform = `translate(${x}px, ${y}px)`;
-        rightPupil.style.transform = `translate(${x}px, ${y}px)`;
-    });
+        function generateOptions(correctGroup, count = 4) {
+            const others = kingdomData.filter(g => g.group !== correctGroup).map(g => g.group);
+            const shuffled = others.sort(() => 0.5 - Math.random());
+            const selected = shuffled.slice(0, count - 1);
+            const options = [...selected, correctGroup];
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            return options;
+        }
 
-    // Initial load
-    updateMana(0);
-    updateJournal();
-    loadNewAilment();
-    updateCharacter('happy');
-    document.body.addEventListener('click', function initAudioUnlock() {
-        if (!audioCtx) initAudio();
-        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-    }, { once: true });
-})();
-</script>
+        function loadNewFact() {
+            if (game2Health <= 0) { gameOver2(); return; }
+            const { fact, group } = pickRandomFact();
+            currentFact = fact;
+            currentCorrectGroup = group;
+            currentOptions2 = generateOptions(group, 4);
+            kingdomFact.innerText = fact;
+            renderKingdomOptions();
+            kingdomFeedback.innerHTML = '💡 click on the correct group';
+            lastSelectedIndex = -1;
+        }
+
+        function renderKingdomOptions() {
+            kingdomOptions.innerHTML = '';
+            currentOptions2.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'kingdom-option';
+                btn.innerText = opt;
+                btn.dataset.index = idx;
+                btn.dataset.group = opt;
+                btn.addEventListener('click', () => {
+                    if (lock2 || game2Health <= 0) return;
+                    if (lastSelectedIndex !== -1) {
+                        const prev = document.querySelector(`.kingdom-option[data-index="${lastSelectedIndex}"]`);
+                        if (prev) prev.classList.remove('selected');
+                    }
+                    btn.classList.add('selected');
+                    lastSelectedIndex = idx;
+                });
+                kingdomOptions.appendChild(btn);
+            });
+        }
+
+        function handleKingdomSubmit(selectedGroup) {
+            if (lock2 || game2Health <= 0) return;
+            if (!selectedGroup) {
+                kingdomFeedback.innerHTML = '⚠️ click an option first!';
+                showPopup('🙏 select a group', false);
+                return;
+            }
+
+            const isCorrect = (selectedGroup === currentCorrectGroup);
+            game2Attempts++;
+            kingdomAttemptsSpan.innerText = game2Attempts;
+
+            if (isCorrect) {
+                game2Score++;
+                game2Streak++;
+                kingdomScoreSpan.innerText = game2Score;
+                kingdomStreakSpan.innerText = game2Streak;
+
+                // sparkle on correct option
+                const correctEl = document.querySelector(`.kingdom-option[data-group="${currentCorrectGroup}"]`);
+                if (correctEl) {
+                    correctEl.classList.add('correct-sparkle');
+                    const rect = correctEl.getBoundingClientRect();
+                    createSparkle(rect.left + rect.width/2, rect.top + rect.height/2, 12);
+                    playSound('sparkle');
+                    setTimeout(() => correctEl.classList.remove('correct-sparkle'), 800);
+                }
+
+                // heart gain on streak 3
+                if (game2Streak % 3 === 0 && game2Health < 3) {
+                    game2Health++;
+                    heartElements[game2Health-1].classList.add('pulse');
+                    setTimeout(() => heartElements[game2Health-1].classList.remove('pulse'), 300);
+                    showPopup('🔥 streak! +❤️', true);
+                }
+
+                kingdomFeedback.innerHTML = `✅ Correct! ${currentCorrectGroup}`;
+                playSound('correct');
+                updateCharacter('happy', game2Health);
+
+                // auto next after 1 sec
+                lock2 = true;
+                setTimeout(() => {
+                    if (game2Health > 0) {
+                        loadNewFact();
+                        lock2 = false;
+                    }
+                }, 1000);
+            } else {
+                game2Streak = 0;
+                kingdomStreakSpan.innerText = '0';
+
+                if (game2Health > 0) {
+                    let lostIndex = game2Health - 1;
+                    heartElements[lostIndex].classList.add('pulse');
+                    setTimeout(() => heartElements[lostIndex].classList.remove('pulse'), 300);
+                }
+                game2Health--;
+                updateCharacter('sick', game2Health);
+                showPopup('😫 wrong... -❤️', false);
+                playSound('wrong');
+                character.classList.add('shake');
+                setTimeout(() => character.classList.remove('shake'), 300);
+
+                if (game2Health <= 0) {
+                    updateCharacter('dead', 0);
+                    gameOver2();
+                    return;
+                }
+
+                kingdomFeedback.innerHTML = `❌ Wrong. The correct group is ${currentCorrectGroup}.`;
+                // disable submit briefly
+                lock2 = true;
+                setTimeout(() => {
+                    lock2 = false;
+                }, 800);
+            }
+        }
+
+        function gameOver2() {
+            playSound('gameover');
+            showGameOver();
+            lock2 = true;
+        }
+
+        function restartGame2() {
+            game2Health = 3;
+            game2Score = 0;
+            game2Attempts = 0;
+            game2Streak = 0;
+            kingdomScoreSpan.innerText = '0';
+            kingdomAttemptsSpan.innerText = '0';
+            kingdomStreakSpan.innerText = '0';
+            updateCharacter('happy', game2Health);
+            hideGameOver();
+            lock2 = false;
+            loadNewFact();
+        }
+
+        // override restart button to work for both games
+        restartBtn.addEventListener('click', () => {
+            if (document.getElementById('game1').classList.contains('active')) {
+                restartGame1();
+            } else {
+                restartGame2();
+            }
+        });
+
+        // next fact button
+        nextFactBtn.addEventListener('click', () => {
+            if (game2Health <= 0) { gameOver2(); return; }
+            loadNewFact();
+        });
+
+        // handle click on kingdom options (use event delegation)
+        kingdomOptions.addEventListener('click', (e) => {
+            const target = e.target.closest('.kingdom-option');
+            if (!target) return;
+            const group = target.dataset.group;
+            handleKingdomSubmit(group);
+        });
+
+        // hint for game2
+        hintBtn2.addEventListener('click', () => {
+            if (lock2 || game2Health <= 0) return;
+            if (!currentCorrectGroup) return;
+            playSound('hint');
+            kingdomFeedback.innerHTML = `💡 Hint: The correct group starts with "${currentCorrectGroup.charAt(0)}".`;
+            createSparkle(window.innerWidth/2, window.innerHeight/2, 5);
+        });
+
+        // manual for game2
+        manualBtn2.addEventListener('click', () => {
+            openManual(`
+                <p><i class="fas fa-bullseye"></i><strong>Objective:</strong> Test your knowledge of plant and animal classification. Score points by matching facts to the correct group.</p>
+                <p><i class="fas fa-play"></i><strong>How to Play:</strong></p>
+                <ul>
+                    <li>Read the fact displayed.</li>
+                    <li>Click on one of the four groups that you think matches the fact.</li>
+                    <li>Correct answer: +1 point, streak increases, and a new fact appears automatically.</li>
+                    <li>Wrong answer: lose 1 heart, streak resets.</li>
+                </ul>
+                <p><i class="fas fa-heart"></i><strong>Hearts:</strong> Start with 3. Every 3rd correct answer restores 1 heart.</p>
+                <p><i class="fas fa-lightbulb"></i><strong>Hint:</strong> Shows the first letter of the correct group.</p>
+            `);
+        });
+
+        // ---------- menu switching ----------
+        const game1Section = document.getElementById('game1');
+        const game2Section = document.getElementById('game2');
+        const btnGame1 = document.getElementById('btnGame1');
+        const btnGame2 = document.getElementById('btnGame2');
+        const manaBar = document.getElementById('manaBar');
+
+        btnGame1.addEventListener('click', () => {
+            game1Section.classList.add('active');
+            game2Section.classList.remove('active');
+            btnGame1.classList.add('active');
+            btnGame2.classList.remove('active');
+            manaBar.style.display = 'flex';
+            // reset game1 if needed? we'll just resume current state
+            updateCharacter(game1Health === 3 ? 'happy' : 'sick', game1Health);
+        });
+        btnGame2.addEventListener('click', () => {
+            game2Section.classList.add('active');
+            game1Section.classList.remove('active');
+            btnGame2.classList.add('active');
+            btnGame1.classList.remove('active');
+            manaBar.style.display = 'none';
+            updateCharacter(game2Health === 3 ? 'happy' : 'sick', game2Health);
+            if (game2Health > 0 && !currentFact) loadNewFact();
+        });
+
+        // pupil movement (shared)
+        document.addEventListener('mousemove', (e) => {
+            if (health <= 0) return; // health is not used directly, but we have game-specific health
+            const x = (e.clientX / window.innerWidth - 0.5) * 10;
+            const y = (e.clientY / window.innerHeight - 0.5) * 8;
+            leftPupil.style.transform = `translate(${x}px, ${y}px)`;
+            rightPupil.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // init
+        updateMana(0);
+        updateJournal();
+        loadNewAilment();
+        updateCharacter('happy', game1Health);
+        loadNewFact(); // preload game2 fact
+        document.body.addEventListener('click', function initAudioUnlock() {
+            if (!audioCtx) initAudio();
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        }, { once: true });
+    </script>
 </body>
 </html>
