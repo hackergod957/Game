@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌿 MAGICAL जडीबूटी · no heart from hint</title>
+    <title>🌿 जडीबूटी · fixed symptoms & balanced spells</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* (styles unchanged from previous version) */
+        /* (styles unchanged) */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -329,7 +329,7 @@
             gap: 15px;
             flex-wrap: wrap;
         }
-        .mute-btn, .hint-btn, .journal-btn, .shuffle-btn {
+        .mute-btn, .hint-btn, .journal-btn, .shuffle-btn, .manual-btn {
             background: #ebc36b;
             border: none;
             border-radius: 40px;
@@ -341,7 +341,7 @@
             font-weight: bold;
             transition: 0.1s;
         }
-        .mute-btn:hover, .hint-btn:hover, .journal-btn:hover, .shuffle-btn:hover {
+        .mute-btn:hover, .hint-btn:hover, .journal-btn:hover, .shuffle-btn:hover, .manual-btn:hover {
             transform: scale(1.05);
             background: #f5cf85;
         }
@@ -753,6 +753,22 @@
             font-weight: bold;
             color: #1d421d;
         }
+        .manual-content {
+            color: #1d421d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .manual-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        .manual-content li {
+            margin-bottom: 8px;
+        }
+        .manual-content i {
+            margin-right: 8px;
+            color: #b8860b;
+        }
         .close-modal {
             background: #c59a5a;
             border: none;
@@ -768,11 +784,47 @@
 <body>
     <div class="popup" id="popupMessage">✨ healed!</div>
     <div class="sparkle-container" id="sparkleContainer"></div>
+    
     <!-- journal modal -->
     <div class="modal" id="journalModal">
         <h2><i class="fas fa-book-open"></i> Plant Journal</h2>
         <div class="journal-grid" id="journalGrid"></div>
         <button class="close-modal" id="closeJournal">close</button>
+    </div>
+
+    <!-- manual modal -->
+    <div class="modal" id="manualModal">
+        <h2><i class="fas fa-book"></i> User Manual</h2>
+        <div class="manual-content">
+            <p><i class="fas fa-bullseye"></i><strong>Objective:</strong> Heal all 10 plants to unlock the <strong>Disease Demon boss</strong>. Defeat the boss by answering 5 questions correctly in a row.</p>
+            <p><i class="fas fa-play"></i><strong>How to Play:</strong></p>
+            <ul>
+                <li>Click on a plant photo that matches the symptom shown above.</li>
+                <li>Type the plant's scientific name (case‑insensitive, dots ignored).</li>
+                <li>Press <strong>Treat</strong> (or Enter) to submit.</li>
+                <li>After a correct answer, the game automatically moves to a new plant (1.5 sec delay).</li>
+            </ul>
+            <p><i class="fas fa-heart"></i><strong>Hearts & Health:</strong> Start with 3 hearts. Wrong answers cost 1 heart. Gain hearts by:</p>
+            <ul>
+                <li>Healing a <strong>new plant</strong> (first time correct).</li>
+                <li><strong>Streak of 3</strong> correct answers (1 heart, max 3).</li>
+                <li><span style="color:#b34a4a;">⚠️ If you get a wrong answer and then use the displayed correct name, you will NOT gain a heart (only mana & streak).</span></li>
+            </ul>
+            <p><i class="fas fa-bolt"></i><strong>Mana & Spells:</strong> Earn 1 mana per correct answer (max 10). Spells:</p>
+            <ul>
+                <li><i class="fas fa-eye"></i> <strong>Reveal (4 mana):</strong> Highlights the correct plant.</li>
+                <li><i class="fas fa-bolt"></i> <strong>Lightning (2 mana):</strong> Disables one random wrong plant for the round.</li>
+                <li><i class="fas fa-heart"></i> <strong>Heal (4 mana):</strong> Restores one heart (if below max).</li>
+            </ul>
+            <p><i class="fas fa-level-up-alt"></i><strong>Levels:</strong> Every 2 unique plants healed increases your level (up to 5). Your hat changes! 🧢→🎩→👑→🪖→🧙</p>
+            <p><i class="fas fa-fire"></i><strong>Streak:</strong> Consecutive correct answers increase your streak. Every 3rd correct gives a bonus heart.</p>
+            <p><i class="fas fa-random"></i><strong>Shuffle:</strong> Rearranges the four plant cards – useful if you're stuck.</p>
+            <p><i class="fas fa-lightbulb"></i><strong>Hint:</strong> Shows the common name and first letter of the scientific name (no penalty).</p>
+            <p><i class="fas fa-leaf"></i><strong>Journal:</strong> Track which plants you've healed.</p>
+            <p><i class="fas fa-volume-up"></i><strong>Sound:</strong> Mute/unmute with the sound button.</p>
+            <p><i class="fas fa-skull"></i><strong>Game Over:</strong> If hearts reach zero, you die. Click <strong>reincarnate</strong> to restart.</p>
+        </div>
+        <button class="close-modal" id="closeManual">close</button>
     </div>
 
     <div class="game-overlay" id="gameOverlay">
@@ -817,12 +869,13 @@
                 <button class="hint-btn" id="hintBtn"><i class="fas fa-lightbulb"></i> hint</button>
                 <button class="shuffle-btn" id="shuffleBtn"><i class="fas fa-random"></i> shuffle</button>
                 <button class="journal-btn" id="journalBtn"><i class="fas fa-leaf"></i> journal</button>
+                <button class="manual-btn" id="manualBtn"><i class="fas fa-book"></i> manual</button>
             </div>
 
-            <!-- spell buttons -->
+            <!-- spell buttons (updated costs) -->
             <div class="spell-buttons" id="spellButtons">
-                <button class="spell-btn" id="spellReveal" data-cost="2"><i class="fas fa-eye"></i> Reveal (2 mana)</button>
-                <button class="spell-btn" id="spellLightning" data-cost="3"><i class="fas fa-bolt"></i> Lightning (3 mana)</button>
+                <button class="spell-btn" id="spellReveal" data-cost="4"><i class="fas fa-eye"></i> Reveal (4 mana)</button>
+                <button class="spell-btn" id="spellLightning" data-cost="2"><i class="fas fa-bolt"></i> Lightning (2 mana)</button>
                 <button class="spell-btn" id="spellHeal" data-cost="4"><i class="fas fa-heart"></i> Heal (4 mana)</button>
             </div>
 
@@ -864,7 +917,7 @@
 
 <script>
 (function() {
-    // ------ plant database ------
+    // ------ plant database with FIXED YARSAGUMBA USE ------
     const plants = [
         { common: "Holy Basil (Tulsi)", scientific: "Ocimum tenuiflorum", use: "throat pain, colds, infections", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg/800px-Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg", emoji: "🌿", healed: false },
         { common: "Neem", scientific: "Azadirachta indica", use: "skin problems, blood purifier", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Azadirachta_indica_%28Neem%29_leaves.jpg/800px-Azadirachta_indica_%28Neem%29_leaves.jpg", emoji: "🌳", healed: false },
@@ -873,7 +926,8 @@
         { common: "Turmeric", scientific: "Curcuma longa", use: "respiratory, skin, antimicrobial", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Curcuma_longa_rhizomes.jpg/800px-Curcuma_longa_rhizomes.jpg", emoji: "🟡", healed: false },
         { common: "Malabar nut (Asuro)", scientific: "Adhatoda vasica", use: "respiratory, mucus, gum ailments", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg/800px-Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg", emoji: "🌼", healed: false },
         { common: "Calamus (Bojo)", scientific: "Acorus calamus", use: "throat disorders, upset stomach", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acorus_calamus_%28Calamus%29.jpg/800px-Acorus_calamus_%28Calamus%29.jpg", emoji: "🌾", healed: false },
-        { common: "Caterpillar fungus (Yarsagumba)", scientific: "Cordyceps sinensis", use: "energy booster, tonic", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg/800px-Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg", emoji: "🐛", healed: false },
+        // FIXED: Yarsagumba now has a logical use/symptom
+        { common: "Caterpillar fungus (Yarsagumba)", scientific: "Cordyceps sinensis", use: "fatigue, low stamina, energy depletion", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg/800px-Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg", emoji: "🐛", healed: false },
         { common: "Mugwort (Tite paati)", scientific: "Artemisia vulgaris", use: "cosmetics, pesticides, bedding", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Artemisia_vulgaris_%28Mugwort%29.jpg/800px-Artemisia_vulgaris_%28Mugwort%29.jpg", emoji: "🌿", healed: false },
         { common: "Aloe vera (Ghiu kumari)", scientific: "Aloe vera", use: "skin, burns, hair, sunburn", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.jpg/800px-Aloe_vera_flower_inset.jpg", emoji: "🌵", healed: false }
     ];
@@ -887,6 +941,7 @@
     const hintBtn = document.getElementById('hintBtn');
     const shuffleBtn = document.getElementById('shuffleBtn');
     const journalBtn = document.getElementById('journalBtn');
+    const manualBtn = document.getElementById('manualBtn');
     const feedback = document.getElementById('feedbackMsg');
     const scoreHealedSpan = document.getElementById('scoreHealed');
     const scoreAttemptsSpan = document.getElementById('scoreAttempts');
@@ -909,6 +964,8 @@
     const journalModal = document.getElementById('journalModal');
     const journalGrid = document.getElementById('journalGrid');
     const closeJournal = document.getElementById('closeJournal');
+    const manualModal = document.getElementById('manualModal');
+    const closeManual = document.getElementById('closeManual');
 
     // Mana elements
     const manaFill = document.getElementById('manaFill');
@@ -1014,7 +1071,7 @@
     const BOSS_REQUIRED = 5;
     let autoNextTimeout = null;
 
-    // NEW: track if the player just saw the answer from a wrong attempt
+    // Track if the player just saw the answer from a wrong attempt
     let usedHintFromWrong = false;
 
     // Mana
@@ -1031,10 +1088,10 @@
         });
     }
 
-    // Spells
+    // Spells (updated costs)
     function castReveal() {
-        if (mana < 2 || lock || health <= 0) return;
-        mana -= 2;
+        if (mana < 4 || lock || health <= 0) return;
+        mana -= 4;
         updateMana();
         playSound('spell');
         let correctIdx = currentOptions.findIndex(p => p.common === currentCorrectPlant.common);
@@ -1049,7 +1106,7 @@
         feedback.innerHTML = `🔮 Reveal cast! The correct plant is highlighted.`;
     }
     function castLightning() {
-        if (mana < 3 || lock || health <= 0) return;
+        if (mana < 2 || lock || health <= 0) return;
         let wrongIndices = [];
         currentOptions.forEach((p, idx) => {
             if (p.common !== currentCorrectPlant.common) wrongIndices.push(idx);
@@ -1062,7 +1119,7 @@
             card.style.pointerEvents = 'none';
             createSparkle(card.getBoundingClientRect().left + 50, card.getBoundingClientRect().top + 50, 8);
         }
-        mana -= 3;
+        mana -= 2;
         updateMana();
         playSound('spell');
         feedback.innerHTML = `⚡ Lightning struck! One wrong plant is disabled for this round.`;
@@ -1267,13 +1324,13 @@
         updateCharacter(health === 3 ? 'happy' : 'sick');
         renderPhotoGrid();
         lastAttempt = { index: -1, input: '' };
-        usedHintFromWrong = false; // Reset the hint flag for the new round
+        usedHintFromWrong = false;
     }
 
     function getSymptomFromUse(plant) {
         const symptoms = [
             `I have ${plant.use.toLowerCase()}.`,
-            `Help! My ${plant.use.split(',')[0]} is killing me.`,
+            `Help! My ${plant.use.split(',')[0]} is acting up.`,
             `Suffering from ${plant.use}.`,
             `Need ${plant.common.split(' ')[0]}!`,
             `My body aches with ${plant.use}.`
@@ -1425,7 +1482,7 @@
 
             // Reset attempt trackers
             lastAttempt = { index: -1, input: '' };
-            usedHintFromWrong = false; // Reset hint flag after correct
+            usedHintFromWrong = false;
 
         } else {
             // WRONG
@@ -1436,7 +1493,7 @@
             if (!isPlantMatch) errorMsg += ' You picked the wrong photo.';
             else if (!isScientificMatch) errorMsg += ' Scientific name incorrect.';
             feedback.innerHTML = errorMsg + ' Try again or use hint.';
-            usedHintFromWrong = true; // Mark that the player has been shown the answer
+            usedHintFromWrong = true;
 
             streak = 0;
             streakSpan.innerText = '0';
@@ -1481,7 +1538,6 @@
         hintBtn.style.transform = 'scale(0.95)';
         setTimeout(() => hintBtn.style.transform = '', 150);
         createSparkle(window.innerWidth/2, window.innerHeight/2, 5);
-        // Do NOT set usedHintFromWrong – hint is not the full answer
     }
 
     function handleNext() {
@@ -1509,6 +1565,16 @@
     closeJournal.addEventListener('click', () => journalModal.style.display = 'none');
     window.addEventListener('click', (e) => {
         if (e.target === journalModal) journalModal.style.display = 'none';
+    });
+
+    // Manual modal
+    function openManual() {
+        manualModal.style.display = 'block';
+    }
+    manualBtn.addEventListener('click', openManual);
+    closeManual.addEventListener('click', () => manualModal.style.display = 'none');
+    window.addEventListener('click', (e) => {
+        if (e.target === manualModal) manualModal.style.display = 'none';
     });
 
     // Event listeners
