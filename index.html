@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌿 जडीबूटी</title>
+    <title>🌿 MAGICAL जडीबूटी · no heart from hint</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* (styles unchanged from previous version) */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,16 +21,43 @@
             align-items: center;
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             padding: 12px;
+            overflow-x: hidden;
         }
 
         .game-wrapper {
-            max-width: 1100px;
+            max-width: 1300px;
             width: 100%;
             background: #f2e3cf;
             border-radius: 50px 50px 30px 30px;
             box-shadow: 0 20px 30px #0f2b0f, 0 0 0 4px #9fcc9f;
             overflow: hidden;
             border: 3px solid #6f8f5f;
+            position: relative;
+        }
+
+        .sparkle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            overflow: hidden;
+        }
+        .sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, gold, orange);
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: sparkleFloat 1s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes sparkleFloat {
+            0% { transform: scale(1) translateY(0); opacity: 1; }
+            100% { transform: scale(0.5) translateY(-100px); opacity: 0; }
         }
 
         .character-panel {
@@ -42,6 +70,7 @@
             gap: 20px;
             border-bottom: 5px solid #5f884a;
             position: relative;
+            z-index: 5;
         }
 
         .character-box {
@@ -56,6 +85,31 @@
             box-shadow: 0 8px 0 #a0815e, inset 0 -8px 0 #ecdca8;
             border: 3px solid #7b6142;
             transition: 0.2s;
+            position: relative;
+        }
+
+        .character-box.dance {
+            animation: dance 0.5s infinite alternate;
+        }
+        @keyframes dance {
+            from { transform: rotate(-3deg) scale(1); }
+            to { transform: rotate(3deg) scale(1.05); }
+        }
+
+        .hat {
+            font-size: 2.5rem;
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            filter: drop-shadow(2px 4px 2px #4f3f1f);
+            transition: 0.3s;
+            animation: hatWobble 2s infinite;
+        }
+        @keyframes hatWobble {
+            0%,100% { transform: translateX(-50%) rotate(0deg); }
+            25% { transform: translateX(-50%) rotate(-5deg); }
+            75% { transform: translateX(-50%) rotate(5deg); }
         }
 
         .eyes {
@@ -136,7 +190,6 @@
             transition: all 0.2s ease;
         }
 
-        /* LOST HEART - now clearly faded and gray */
         .heart.dead {
             color: #7a7a7a !important;
             text-shadow: 0 3px 0 #3f3f3f !important;
@@ -145,7 +198,6 @@
             filter: grayscale(1);
         }
 
-        /* small animation when heart changes */
         .heart.pulse {
             animation: heartPulse 0.3s ease;
         }
@@ -154,6 +206,57 @@
             0% { transform: scale(1); }
             50% { transform: scale(1.3); color: #ff9090; }
             100% { transform: scale(1); }
+        }
+
+        .mana-bar {
+            background: #1e3a5f;
+            border-radius: 60px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 3px solid #7ec8ff;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .mana-fill {
+            background: #3a8cd0;
+            border-radius: 40px;
+            height: 25px;
+            width: 0%;
+            transition: width 0.2s;
+        }
+        .mana-text {
+            margin-left: 10px;
+        }
+
+        .spell-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        .spell-btn {
+            background: #6a4e9b;
+            border: none;
+            border-radius: 40px;
+            padding: 8px 16px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #b696e0;
+            box-shadow: 0 5px 0 #3f2e5c;
+            transition: 0.05s;
+        }
+        .spell-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #3f2e5c;
+        }
+        .spell-btn.disabled {
+            opacity: 0.4;
+            pointer-events: none;
         }
 
         .symptom-box {
@@ -167,6 +270,12 @@
             border: 2px solid #6a923a;
             min-width: 280px;
             text-align: center;
+            animation: glowPulse 2s infinite;
+        }
+        @keyframes glowPulse {
+            0% { box-shadow: inset 0 -4px 0 #b89a7a, 0 8px 0 #5e7a4e; }
+            50% { box-shadow: inset 0 -4px 0 #b89a7a, 0 8px 10px #f5e56b; }
+            100% { box-shadow: inset 0 -4px 0 #b89a7a, 0 8px 0 #5e7a4e; }
         }
 
         .popup {
@@ -186,6 +295,7 @@
             display: none;
             text-align: center;
             white-space: nowrap;
+            pointer-events: none;
         }
 
         .computer-panel {
@@ -201,6 +311,8 @@
             padding: 25px 20px;
             box-shadow: inset 0 0 0 3px #aacfaa, 0 10px 0 #355235;
             color: #cfffc3;
+            position: relative;
+            z-index: 5;
         }
 
         .instructions {
@@ -215,8 +327,9 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
-        .mute-btn {
+        .mute-btn, .hint-btn, .journal-btn, .shuffle-btn {
             background: #ebc36b;
             border: none;
             border-radius: 40px;
@@ -226,6 +339,11 @@
             border: 2px solid #6f8f5f;
             color: #2b4d2b;
             font-weight: bold;
+            transition: 0.1s;
+        }
+        .mute-btn:hover, .hint-btn:hover, .journal-btn:hover, .shuffle-btn:hover {
+            transform: scale(1.05);
+            background: #f5cf85;
         }
 
         .photo-grid {
@@ -248,6 +366,27 @@
             padding: 15px 8px 12px;
             color: #1d421d;
             min-height: 180px;
+            position: relative;
+            animation: cardIdle 3s infinite;
+        }
+        @keyframes cardIdle {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .plant-card:hover {
+            transform: scale(1.05) rotate(1deg);
+            border-color: #caa835;
+            box-shadow: 0 9px 0 #a07d2b;
+        }
+
+        .plant-card.correct-sparkle {
+            animation: correctSparkle 0.8s ease;
+        }
+        @keyframes correctSparkle {
+            0% { box-shadow: 0 0 0px gold; }
+            30% { box-shadow: 0 0 30px gold, 0 0 50px orange; transform: scale(1.1); }
+            100% { box-shadow: 0 0 0px gold; }
         }
 
         .plant-card .image-container {
@@ -267,6 +406,10 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            transition: 0.3s;
+        }
+        .plant-card:hover img {
+            transform: scale(1.1);
         }
 
         .plant-card .fallback {
@@ -301,6 +444,28 @@
             transform: scale(1.02);
         }
 
+        .plant-card.healed {
+            opacity: 0.8;
+            filter: sepia(0.3) brightness(1.1);
+            border-color: #d4a017;
+            box-shadow: 0 5px 0 #a07d2b;
+        }
+        .plant-card.healed::after {
+            content: "✔️";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 2rem;
+            color: gold;
+            text-shadow: 0 2px 0 #5a4500;
+        }
+
+        .plant-card.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+            filter: grayscale(1);
+        }
+
         @keyframes shake {
             0% { transform: translateX(0); }
             25% { transform: translateX(-7px); }
@@ -314,7 +479,7 @@
 
         @keyframes glow {
             0% { box-shadow: 0 0 5px #5f8b5f; }
-            50% { box-shadow: 0 0 20px #b3ffa7; }
+            50% { box-shadow: 0 0 20px #b3ffa7, 0 0 40px gold; }
             100% { box-shadow: 0 0 5px #5f8b5f; }
         }
         .glow {
@@ -352,6 +517,11 @@
             font-weight: 600;
             color: #1a3b1a;
             outline: none;
+            transition: 0.2s;
+        }
+        .scientific-input-area input:focus {
+            border-color: #f7c55a;
+            box-shadow: 0 0 20px #f7e05e;
         }
 
         .action-buttons {
@@ -359,6 +529,7 @@
             gap: 15px;
             justify-content: center;
             margin: 30px 0 10px;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -398,6 +569,11 @@
             color: #fcf0ba;
             margin-top: 15px;
             border: 2px solid #a1b976;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
         }
 
         .score-bar {
@@ -411,6 +587,68 @@
             font-size: 1.2rem;
             border: 2px solid #bad6a3;
             margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .streak {
+            background: #f5b342;
+            color: #2d471d;
+            padding: 5px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            animation: streakGlow 1s infinite;
+        }
+        @keyframes streakGlow {
+            0%,100% { box-shadow: 0 0 5px gold; }
+            50% { box-shadow: 0 0 20px gold; }
+        }
+
+        .progress {
+            background: #3f693f;
+            height: 20px;
+            border-radius: 40px;
+            margin: 15px 0 5px;
+            border: 2px solid #92b882;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f7d44a, #ffb347);
+            transition: width 0.3s;
+            animation: progressShimmer 2s infinite;
+        }
+        @keyframes progressShimmer {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .level-badge {
+            background: #b8860b;
+            color: #ffe7a0;
+            padding: 5px 25px;
+            border-radius: 40px;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .boss-indicator {
+            background: #a53f3f;
+            color: #ffdba0;
+            padding: 10px 20px;
+            border-radius: 60px;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 3px solid gold;
+            margin-bottom: 15px;
+            animation: bossPulse 0.8s infinite alternate;
+        }
+        @keyframes bossPulse {
+            from { transform: scale(1); background: #a53f3f; }
+            to { transform: scale(1.02); background: #c44f4f; }
         }
 
         .game-overlay {
@@ -432,6 +670,12 @@
             font-weight: bold;
             color: #3d1e1e;
             box-shadow: 0 20px 0 #753e0e;
+            animation: gameoverWobble 1s infinite;
+        }
+        @keyframes gameoverWobble {
+            0%,100% { transform: rotate(0deg); }
+            25% { transform: rotate(-2deg); }
+            75% { transform: rotate(2deg); }
         }
         .restart-btn {
             background: #fcca6b;
@@ -449,10 +693,88 @@
             margin-top: 8px;
             text-align: center;
         }
+
+        /* modal */
+        .modal {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: #f5e6c6;
+            border: 8px solid #8f6b3e;
+            border-radius: 60px;
+            padding: 30px;
+            z-index: 2000;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 20px 0 #684e2c;
+            animation: modalPop 0.3s;
+        }
+        @keyframes modalPop {
+            from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        .modal h2 {
+            color: #2b4d2b;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        .journal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .journal-item {
+            background: #ebdbbc;
+            border: 3px solid #6f8f5f;
+            border-radius: 30px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        .journal-item:hover {
+            transform: scale(1.02);
+        }
+        .journal-item.healed {
+            background: #d4e0b0;
+            border-color: #b8860b;
+        }
+        .journal-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+        .journal-item span {
+            font-weight: bold;
+            color: #1d421d;
+        }
+        .close-modal {
+            background: #c59a5a;
+            border: none;
+            font-size: 1.5rem;
+            padding: 10px 30px;
+            border-radius: 40px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: 2px solid #5f7648;
+        }
     </style>
 </head>
 <body>
     <div class="popup" id="popupMessage">✨ healed!</div>
+    <div class="sparkle-container" id="sparkleContainer"></div>
+    <!-- journal modal -->
+    <div class="modal" id="journalModal">
+        <h2><i class="fas fa-book-open"></i> Plant Journal</h2>
+        <div class="journal-grid" id="journalGrid"></div>
+        <button class="close-modal" id="closeJournal">close</button>
+    </div>
+
     <div class="game-overlay" id="gameOverlay">
         <div class="gameover-box">
             💀 गयो ! 💀<br>
@@ -463,6 +785,7 @@
 <div class="game-wrapper">
     <div class="character-panel">
         <div class="character-box" id="character">
+            <div class="hat" id="characterHat">🧢</div>
             <div class="eyes">
                 <div class="eye"><div class="pupil" id="leftPupil"></div></div>
                 <div class="eye"><div class="pupil" id="rightPupil"></div></div>
@@ -474,6 +797,13 @@
             <span class="heart" id="heart2">❤️</span>
             <span class="heart" id="heart3">❤️</span>
         </div>
+        <div class="mana-bar" id="manaBar">
+            <span>🔮 Mana</span>
+            <div style="flex:1; background:#0f2b3a; border-radius:40px; margin-left:10px;">
+                <div class="mana-fill" id="manaFill" style="width:0%;"></div>
+            </div>
+            <span class="mana-text" id="manaText">0/10</span>
+        </div>
         <div class="symptom-box" id="symptomDisplay">
             <i class="fas fa-dizzy"></i> <span id="ailmentText">Loading...</span>
         </div>
@@ -484,6 +814,28 @@
             <div class="instructions">
                 <i class="fas fa-camera"></i> click photo · type scientific name
                 <button class="mute-btn" id="muteBtn"><i class="fas fa-volume-up"></i> sound</button>
+                <button class="hint-btn" id="hintBtn"><i class="fas fa-lightbulb"></i> hint</button>
+                <button class="shuffle-btn" id="shuffleBtn"><i class="fas fa-random"></i> shuffle</button>
+                <button class="journal-btn" id="journalBtn"><i class="fas fa-leaf"></i> journal</button>
+            </div>
+
+            <!-- spell buttons -->
+            <div class="spell-buttons" id="spellButtons">
+                <button class="spell-btn" id="spellReveal" data-cost="2"><i class="fas fa-eye"></i> Reveal (2 mana)</button>
+                <button class="spell-btn" id="spellLightning" data-cost="3"><i class="fas fa-bolt"></i> Lightning (3 mana)</button>
+                <button class="spell-btn" id="spellHeal" data-cost="4"><i class="fas fa-heart"></i> Heal (4 mana)</button>
+            </div>
+
+            <!-- boss warning / progress -->
+            <div id="bossArea" style="display: none;" class="boss-indicator">⚠️ BOSS BATTLE: Disease Demon ⚠️</div>
+
+            <!-- progress to next level -->
+            <div class="progress" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <span>Level <span id="currentLevel">1</span></span>
+                <span id="plantsHealedCount">0/10</span>
             </div>
 
             <div class="photo-grid" id="photoGrid"></div>
@@ -503,6 +855,7 @@
             <div class="score-bar">
                 <span><i class="fas fa-leaf"></i> cured: <span id="scoreHealed">0</span></span>
                 <span><i class="fas fa-skull"></i> attempts: <span id="scoreAttempts">0</span></span>
+                <span class="streak"><i class="fas fa-fire"></i> streak: <span id="streakCount">0</span></span>
             </div>
             <div class="image-note"><i class="fas fa-image"></i> real plant photos (fallback emoji)</div>
         </div>
@@ -511,18 +864,18 @@
 
 <script>
 (function() {
-    // ------ plant database with reliable image URLs ------
+    // ------ plant database ------
     const plants = [
-        { common: "Holy Basil (Tulsi)", scientific: "Ocimum tenuiflorum", use: "throat pain, colds, infections", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg/800px-Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg", emoji: "🌿" },
-        { common: "Neem", scientific: "Azadirachta indica", use: "skin problems, blood purifier", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Azadirachta_indica_%28Neem%29_leaves.jpg/800px-Azadirachta_indica_%28Neem%29_leaves.jpg", emoji: "🌳" },
-        { common: "Heart-leaved moonseed (Gurjo)", scientific: "Tinospora cordifolia", use: "boost immunity, reduce sugar", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Tinospora_cordifolia_%28Guduchi%29.jpg/800px-Tinospora_cordifolia_%28Guduchi%29.jpg", emoji: "🌱" },
-        { common: "Asiatic pennywort (Ghod tapre)", scientific: "Centella asiatica", use: "memory, anxiety, burn healing", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Centella_asiatica_%28Gotu_kola%29.jpg/800px-Centella_asiatica_%28Gotu_kola%29.jpg", emoji: "☘️" },
-        { common: "Turmeric", scientific: "Curcuma longa", use: "respiratory, skin, antimicrobial", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Curcuma_longa_rhizomes.jpg/800px-Curcuma_longa_rhizomes.jpg", emoji: "🟡" },
-        { common: "Malabar nut (Asuro)", scientific: "Adhatoda vasica", use: "respiratory, mucus, gum ailments", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg/800px-Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg", emoji: "🌼" },
-        { common: "Calamus (Bojo)", scientific: "Acorus calamus", use: "throat disorders, upset stomach", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acorus_calamus_%28Calamus%29.jpg/800px-Acorus_calamus_%28Calamus%29.jpg", emoji: "🌾" },
-        { common: "Caterpillar fungus (Yarsagumba)", scientific: "Cordyceps sinensis", use: "energy booster, tonic", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg/800px-Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg", emoji: "🐛" },
-        { common: "Mugwort (Tite paati)", scientific: "Artemisia vulgaris", use: "cosmetics, pesticides, bedding", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Artemisia_vulgaris_%28Mugwort%29.jpg/800px-Artemisia_vulgaris_%28Mugwort%29.jpg", emoji: "🌿" },
-        { common: "Aloe vera (Ghiu kumari)", scientific: "Aloe vera", use: "skin, burns, hair, sunburn", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.jpg/800px-Aloe_vera_flower_inset.jpg", emoji: "🌵" }
+        { common: "Holy Basil (Tulsi)", scientific: "Ocimum tenuiflorum", use: "throat pain, colds, infections", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg/800px-Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg", emoji: "🌿", healed: false },
+        { common: "Neem", scientific: "Azadirachta indica", use: "skin problems, blood purifier", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Azadirachta_indica_%28Neem%29_leaves.jpg/800px-Azadirachta_indica_%28Neem%29_leaves.jpg", emoji: "🌳", healed: false },
+        { common: "Heart-leaved moonseed (Gurjo)", scientific: "Tinospora cordifolia", use: "boost immunity, reduce sugar", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Tinospora_cordifolia_%28Guduchi%29.jpg/800px-Tinospora_cordifolia_%28Guduchi%29.jpg", emoji: "🌱", healed: false },
+        { common: "Asiatic pennywort (Ghod tapre)", scientific: "Centella asiatica", use: "memory, anxiety, burn healing", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Centella_asiatica_%28Gotu_kola%29.jpg/800px-Centella_asiatica_%28Gotu_kola%29.jpg", emoji: "☘️", healed: false },
+        { common: "Turmeric", scientific: "Curcuma longa", use: "respiratory, skin, antimicrobial", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Curcuma_longa_rhizomes.jpg/800px-Curcuma_longa_rhizomes.jpg", emoji: "🟡", healed: false },
+        { common: "Malabar nut (Asuro)", scientific: "Adhatoda vasica", use: "respiratory, mucus, gum ailments", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg/800px-Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg", emoji: "🌼", healed: false },
+        { common: "Calamus (Bojo)", scientific: "Acorus calamus", use: "throat disorders, upset stomach", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acorus_calamus_%28Calamus%29.jpg/800px-Acorus_calamus_%28Calamus%29.jpg", emoji: "🌾", healed: false },
+        { common: "Caterpillar fungus (Yarsagumba)", scientific: "Cordyceps sinensis", use: "energy booster, tonic", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg/800px-Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg", emoji: "🐛", healed: false },
+        { common: "Mugwort (Tite paati)", scientific: "Artemisia vulgaris", use: "cosmetics, pesticides, bedding", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Artemisia_vulgaris_%28Mugwort%29.jpg/800px-Artemisia_vulgaris_%28Mugwort%29.jpg", emoji: "🌿", healed: false },
+        { common: "Aloe vera (Ghiu kumari)", scientific: "Aloe vera", use: "skin, burns, hair, sunburn", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.jpg/800px-Aloe_vera_flower_inset.jpg", emoji: "🌵", healed: false }
     ];
 
     // DOM elements
@@ -531,19 +884,40 @@
     const scientificInput = document.getElementById('scientificInput');
     const submitBtn = document.getElementById('submitBtn');
     const nextBtn = document.getElementById('nextBtn');
+    const hintBtn = document.getElementById('hintBtn');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const journalBtn = document.getElementById('journalBtn');
     const feedback = document.getElementById('feedbackMsg');
     const scoreHealedSpan = document.getElementById('scoreHealed');
     const scoreAttemptsSpan = document.getElementById('scoreAttempts');
+    const streakSpan = document.getElementById('streakCount');
+    const plantsHealedCountSpan = document.getElementById('plantsHealedCount');
+    const currentLevelSpan = document.getElementById('currentLevel');
+    const progressFill = document.getElementById('progressFill');
+    const bossArea = document.getElementById('bossArea');
+    const characterHat = document.getElementById('characterHat');
+    const characterBox = document.getElementById('character');
     const mouth = document.getElementById('mouth');
     const leftPupil = document.getElementById('leftPupil');
     const rightPupil = document.getElementById('rightPupil');
     const heartElements = [document.getElementById('heart1'), document.getElementById('heart2'), document.getElementById('heart3')];
     const popup = document.getElementById('popupMessage');
+    const sparkleContainer = document.getElementById('sparkleContainer');
     const gameOverlay = document.getElementById('gameOverlay');
     const restartBtn = document.getElementById('restartBtn');
     const muteBtn = document.getElementById('muteBtn');
+    const journalModal = document.getElementById('journalModal');
+    const journalGrid = document.getElementById('journalGrid');
+    const closeJournal = document.getElementById('closeJournal');
 
-    // Sound system (Web Audio API)
+    // Mana elements
+    const manaFill = document.getElementById('manaFill');
+    const manaText = document.getElementById('manaText');
+    const spellReveal = document.getElementById('spellReveal');
+    const spellLightning = document.getElementById('spellLightning');
+    const spellHeal = document.getElementById('spellHeal');
+
+    // Sound system
     let audioCtx = null;
     let muted = false;
     function initAudio() {
@@ -552,12 +926,8 @@
     }
     function playSound(type) {
         if (muted) return;
-        if (!audioCtx) {
-            initAudio();
-        }
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-        }
+        if (!audioCtx) initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
         osc.type = 'sine';
@@ -582,51 +952,193 @@
             gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
             osc.start();
             osc.stop(audioCtx.currentTime + 0.5);
+        } else if (type === 'hint') {
+            osc.frequency.value = 440;
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.15);
+        } else if (type === 'levelup') {
+            osc.frequency.value = 660;
+            gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.4);
+        } else if (type === 'sparkle') {
+            osc.frequency.value = 1200;
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+        } else if (type === 'spell') {
+            osc.frequency.value = 600;
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.2);
         }
     }
 
-    // Toggle mute
     muteBtn.addEventListener('click', () => {
         muted = !muted;
         muteBtn.innerHTML = muted ? '<i class="fas fa-volume-mute"></i> mute' : '<i class="fas fa-volume-up"></i> sound';
     });
+
+    // Sparkle effect
+    function createSparkle(x, y, count = 8) {
+        for (let i = 0; i < count; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = (x + (Math.random() * 100 - 50)) + 'px';
+            sparkle.style.top = (y + (Math.random() * 100 - 50)) + 'px';
+            sparkle.style.animationDuration = (0.5 + Math.random() * 1) + 's';
+            sparkle.style.background = `radial-gradient(circle, ${Math.random() > 0.5 ? 'gold' : 'orange'}, yellow)`;
+            sparkleContainer.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1000);
+        }
+    }
 
     // State
     let currentCorrectPlant = null;
     let currentOptions = [];
     let selectedCardIndex = -1;
     let healedCount = 0;
+    let uniqueHealedCount = 0;
     let attemptCount = 0;
     let health = 3;
     let lock = false;
+    let streak = 0;
+    let level = 1;
+    let bossMode = false;
+    let bossQuestionsLeft = 0;
+    const BOSS_REQUIRED = 5;
+    let autoNextTimeout = null;
 
-    // Helper: random symptom phrase
-    function getSymptomFromUse(plant) {
-        const symptoms = [
-            `I have ${plant.use.toLowerCase()}.`,
-            `Help! My ${plant.use.split(',')[0]} is killing me.`,
-            `Suffering from ${plant.use}.`,
-            `Need ${plant.common.split(' ')[0]}!`,
-            `My body aches with ${plant.use}.`
-        ];
-        return symptoms[Math.floor(Math.random() * symptoms.length)];
+    // NEW: track if the player just saw the answer from a wrong attempt
+    let usedHintFromWrong = false;
+
+    // Mana
+    let mana = 0;
+    const MAX_MANA = 10;
+    function updateMana(change = 0) {
+        mana = Math.min(MAX_MANA, Math.max(0, mana + change));
+        manaFill.style.width = (mana / MAX_MANA * 100) + '%';
+        manaText.innerText = mana + '/' + MAX_MANA;
+        [spellReveal, spellLightning, spellHeal].forEach(btn => {
+            let cost = parseInt(btn.dataset.cost);
+            if (mana < cost) btn.classList.add('disabled');
+            else btn.classList.remove('disabled');
+        });
     }
 
-    // Update character appearance and hearts
-    function updateCharacter(mood = null) {
-        // update hearts: apply 'dead' class to those beyond health
-        for (let i = 0; i < heartElements.length; i++) {
-            if (i < health) {
-                heartElements[i].classList.remove('dead');
-            } else {
-                heartElements[i].classList.add('dead');
+    // Spells
+    function castReveal() {
+        if (mana < 2 || lock || health <= 0) return;
+        mana -= 2;
+        updateMana();
+        playSound('spell');
+        let correctIdx = currentOptions.findIndex(p => p.common === currentCorrectPlant.common);
+        if (correctIdx !== -1) {
+            let card = document.querySelector(`.plant-card[data-index="${correctIdx}"]`);
+            if (card) {
+                card.classList.add('correct-sparkle');
+                setTimeout(() => card.classList.remove('correct-sparkle'), 1500);
+                createSparkle(card.getBoundingClientRect().left + 50, card.getBoundingClientRect().top + 50, 10);
             }
+        }
+        feedback.innerHTML = `🔮 Reveal cast! The correct plant is highlighted.`;
+    }
+    function castLightning() {
+        if (mana < 3 || lock || health <= 0) return;
+        let wrongIndices = [];
+        currentOptions.forEach((p, idx) => {
+            if (p.common !== currentCorrectPlant.common) wrongIndices.push(idx);
+        });
+        if (wrongIndices.length === 0) return;
+        let randomWrong = wrongIndices[Math.floor(Math.random() * wrongIndices.length)];
+        let card = document.querySelector(`.plant-card[data-index="${randomWrong}"]`);
+        if (card) {
+            card.classList.add('disabled');
+            card.style.pointerEvents = 'none';
+            createSparkle(card.getBoundingClientRect().left + 50, card.getBoundingClientRect().top + 50, 8);
+        }
+        mana -= 3;
+        updateMana();
+        playSound('spell');
+        feedback.innerHTML = `⚡ Lightning struck! One wrong plant is disabled for this round.`;
+    }
+    function castHeal() {
+        if (mana < 4 || lock || health <= 0 || health >= 3) return;
+        health++;
+        updateCharacter();
+        heartElements[health-1].classList.add('pulse');
+        setTimeout(() => heartElements[health-1].classList.remove('pulse'), 300);
+        mana -= 4;
+        updateMana();
+        playSound('spell');
+        showPopup('💖 Healed by magic!', true);
+        feedback.innerHTML = `💖 Healing aura restored a heart!`;
+    }
+    spellReveal.addEventListener('click', castReveal);
+    spellLightning.addEventListener('click', castLightning);
+    spellHeal.addEventListener('click', castHeal);
+
+    // Update journal display
+    function updateJournal() {
+        plantsHealedCountSpan.innerText = `${uniqueHealedCount}/${plants.length}`;
+        let progressTarget = 2;
+        let progress = (uniqueHealedCount % progressTarget) / progressTarget * 100;
+        if (uniqueHealedCount === plants.length) progress = 100;
+        progressFill.style.width = progress + '%';
+
+        let newLevel = Math.floor(uniqueHealedCount / 2) + 1;
+        if (newLevel > 5) newLevel = 5;
+        if (newLevel !== level) {
+            level = newLevel;
+            currentLevelSpan.innerText = level;
+            playSound('levelup');
+            showPopup(`🌟 Level ${level}! 🌟`, true);
+            const hats = ['🧢', '🎩', '👑', '🪖', '🧙'];
+            characterHat.innerText = hats[level-1] || '🧢';
+            createSparkle(window.innerWidth/2, window.innerHeight/2, 20);
+        }
+
+        if (uniqueHealedCount === plants.length && !bossMode) {
+            startBossMode();
+        }
+    }
+
+    function startBossMode() {
+        bossMode = true;
+        bossQuestionsLeft = BOSS_REQUIRED;
+        bossArea.style.display = 'block';
+        showPopup('👹 DISEASE DEMON APPEARS!', false);
+        playSound('gameover');
+        feedback.innerHTML = `BOSS BATTLE! Answer ${BOSS_REQUIRED} correctly in a row to win.`;
+        streak = 0;
+        streakSpan.innerText = streak;
+        createSparkle(window.innerWidth/2, window.innerHeight/2, 30);
+    }
+
+    function showPopup(text, isGood = true) {
+        popup.style.display = 'block';
+        popup.textContent = text;
+        popup.style.background = isGood ? '#d7f0c3' : '#f8c8b0';
+        popup.style.color = isGood ? '#1d4f1d' : '#711010';
+        setTimeout(() => popup.style.display = 'none', 1200);
+    }
+
+    function updateCharacter(mood = null) {
+        for (let i = 0; i < heartElements.length; i++) {
+            if (i < health) heartElements[i].classList.remove('dead');
+            else heartElements[i].classList.add('dead');
         }
 
         if (health <= 0) {
             mouth.className = 'mouth dead';
             leftPupil.style.background = '#555';
             rightPupil.style.background = '#555';
+            characterBox.classList.remove('dance');
             return;
         } else {
             leftPupil.style.background = '#1d3b1d';
@@ -635,46 +1147,52 @@
 
         if (mood === 'happy') {
             mouth.className = 'mouth happy';
+            characterBox.classList.add('dance');
         } else if (mood === 'sick') {
             mouth.className = 'mouth sick';
+            characterBox.classList.remove('dance');
         } else {
-            if (health === 1) mouth.className = 'mouth sick';
-            else mouth.className = 'mouth suffering'; // default
+            mouth.className = health === 1 ? 'mouth sick' : 'mouth suffering';
+            characterBox.classList.remove('dance');
         }
     }
 
-    // Show popup
-    function showPopup(text, isGood = true) {
-        popup.style.display = 'block';
-        popup.textContent = text;
-        popup.style.background = isGood ? '#d7f0c3' : '#f8c8b0';
-        popup.style.color = isGood ? '#1d4f1d' : '#711010';
-        setTimeout(() => {
-            popup.style.display = 'none';
-        }, 1200);
-    }
-
-    // Game over
     function gameOver() {
         playSound('gameover');
         gameOverlay.style.display = 'flex';
         lock = true;
+        characterBox.classList.remove('dance');
+        if (autoNextTimeout) clearTimeout(autoNextTimeout);
     }
 
-    // Restart game
     function restartGame() {
+        plants.forEach(p => p.healed = false);
         health = 3;
         healedCount = 0;
+        uniqueHealedCount = 0;
         attemptCount = 0;
+        streak = 0;
+        level = 1;
+        bossMode = false;
+        bossQuestionsLeft = 0;
+        bossArea.style.display = 'none';
+        mana = 0;
+        updateMana();
         scoreHealedSpan.innerText = '0';
         scoreAttemptsSpan.innerText = '0';
+        streakSpan.innerText = '0';
+        currentLevelSpan.innerText = '1';
+        characterHat.innerText = '🧢';
         updateCharacter('happy');
         gameOverlay.style.display = 'none';
         lock = false;
+        if (autoNextTimeout) clearTimeout(autoNextTimeout);
+        lastAttempt = { index: -1, input: '' };
+        usedHintFromWrong = false;
         loadNewAilment();
+        updateJournal();
     }
 
-    // Get random options (3 distractors + correct)
     function getRandomOptions(correctPlant, count = 4) {
         const others = plants.filter(p => p.common !== correctPlant.common);
         const shuffled = others.sort(() => 0.5 - Math.random());
@@ -687,12 +1205,11 @@
         return options;
     }
 
-    // Render photo grid with fallback
     function renderPhotoGrid() {
         photoGrid.innerHTML = '';
         currentOptions.forEach((plant, idx) => {
             const card = document.createElement('div');
-            card.className = `plant-card ${selectedCardIndex === idx ? 'selected' : ''}`;
+            card.className = `plant-card ${selectedCardIndex === idx ? 'selected' : ''} ${plant.healed ? 'healed' : ''}`;
             card.dataset.index = idx;
             card.dataset.scientific = plant.scientific;
 
@@ -710,7 +1227,6 @@
                 imgContainer.innerHTML = '';
                 imgContainer.appendChild(fallbackDiv);
             };
-
             imgContainer.appendChild(img);
 
             const nameSpan = document.createElement('span');
@@ -727,32 +1243,62 @@
                 }
                 selectedCardIndex = idx;
                 card.classList.add('selected');
+                lastAttempt.index = -1;
             });
 
             photoGrid.appendChild(card);
         });
     }
 
-    // Load new ailment
     function loadNewAilment() {
-        if (health <= 0) {
-            gameOver();
-            return;
-        }
-        const randomIndex = Math.floor(Math.random() * plants.length);
+        if (health <= 0) { gameOver(); return; }
+        let randomIndex = Math.floor(Math.random() * plants.length);
         currentCorrectPlant = plants[randomIndex];
         currentOptions = getRandomOptions(currentCorrectPlant, 4);
         selectedCardIndex = -1;
-        document.querySelectorAll('.plant-card').forEach(c => c.classList.remove('selected'));
+        document.querySelectorAll('.plant-card').forEach(c => {
+            c.classList.remove('selected', 'disabled');
+            c.style.pointerEvents = '';
+        });
         ailmentSpan.innerText = getSymptomFromUse(currentCorrectPlant);
         scientificInput.value = '';
-        feedback.innerHTML = '💬 select a photo and type scientific name...';
+        if (!bossMode) feedback.innerHTML = '💬 select a photo and type scientific name...';
         lock = false;
         updateCharacter(health === 3 ? 'happy' : 'sick');
         renderPhotoGrid();
+        lastAttempt = { index: -1, input: '' };
+        usedHintFromWrong = false; // Reset the hint flag for the new round
     }
 
-    // Handle treat
+    function getSymptomFromUse(plant) {
+        const symptoms = [
+            `I have ${plant.use.toLowerCase()}.`,
+            `Help! My ${plant.use.split(',')[0]} is killing me.`,
+            `Suffering from ${plant.use}.`,
+            `Need ${plant.common.split(' ')[0]}!`,
+            `My body aches with ${plant.use}.`
+        ];
+        return symptoms[Math.floor(Math.random() * symptoms.length)];
+    }
+
+    function handleShuffle() {
+        if (lock || health <= 0) return;
+        let newOptions = [...currentOptions];
+        for (let i = newOptions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newOptions[i], newOptions[j]] = [newOptions[j], newOptions[i]];
+        }
+        currentOptions = newOptions;
+        selectedCardIndex = -1;
+        lastAttempt.index = -1;
+        renderPhotoGrid();
+        playSound('hint');
+        feedback.innerHTML = '🃏 Cards shuffled! Make a new selection.';
+        createSparkle(window.innerWidth/2, window.innerHeight/2, 8);
+    }
+
+    let lastAttempt = { index: -1, input: '' };
+
     function handleTreat() {
         if (lock || health <= 0) return;
         if (!currentCorrectPlant) return;
@@ -779,31 +1325,123 @@
         const isScientificMatch = (typedSimplified === sciSimplified) || (typedClean === correctSci);
         const isPlantMatch = (selectedPlant.common === currentCorrectPlant.common);
 
+        // Duplicate wrong check
+        if (!isScientificMatch || !isPlantMatch) {
+            if (lastAttempt.index === selectedCardIndex && lastAttempt.input === typedClean) {
+                feedback.innerHTML = '⏳ You already tried that combination. Please change your answer.';
+                showPopup('🔄 try something else', false);
+                return;
+            }
+        }
+
         attemptCount++;
         scoreAttemptsSpan.innerText = attemptCount;
 
         if (isScientificMatch && isPlantMatch) {
             // CORRECT
             healedCount++;
+            streak++;
             scoreHealedSpan.innerText = healedCount;
-            if (health < 3) {
+            streakSpan.innerText = streak;
+
+            // Mana gain
+            updateMana(1);
+
+            // sparkle
+            const correctCard = document.querySelector(`.plant-card[data-index="${selectedCardIndex}"]`);
+            if (correctCard) {
+                correctCard.classList.add('correct-sparkle');
+                const rect = correctCard.getBoundingClientRect();
+                createSparkle(rect.left + rect.width/2, rect.top + rect.height/2, 12);
+                playSound('sparkle');
+                setTimeout(() => correctCard.classList.remove('correct-sparkle'), 800);
+            }
+
+            // ----- HEART GAIN LOGIC (with anti‑hint rule) -----
+            let heartGained = false;
+
+            // Unique heal (first time for this plant)
+            if (!currentCorrectPlant.healed) {
+                currentCorrectPlant.healed = true;
+                uniqueHealedCount++;
+                if (!usedHintFromWrong && health < 3) {
+                    health++;
+                    heartElements[health-1].classList.add('pulse');
+                    setTimeout(() => heartElements[health-1].classList.remove('pulse'), 300);
+                    heartGained = true;
+                }
+                updateJournal();
+            }
+
+            // Streak bonus heart (every 3 correct)
+            if (streak % 3 === 0 && health < 3 && !usedHintFromWrong && !heartGained) {
                 health++;
-                // pulse the gained heart
+                showPopup('🔥 streak! +❤️', true);
                 heartElements[health-1].classList.add('pulse');
                 setTimeout(() => heartElements[health-1].classList.remove('pulse'), 300);
+                heartGained = true;
             }
+
+            if (heartGained) {
+                showPopup('💚 heart restored!', true);
+            } else if (usedHintFromWrong) {
+                feedback.innerHTML = `✅ correct! (no heart – you used the hint) ${currentCorrectPlant.common} (${currentCorrectPlant.scientific})`;
+            } else {
+                feedback.innerHTML = `✅ correct! ${currentCorrectPlant.common} (${currentCorrectPlant.scientific})`;
+            }
+
             updateCharacter('happy');
-            showPopup('💚 healed! +❤️', true);
-            feedback.innerHTML = `✅ perfect! ${currentCorrectPlant.scientific} is correct.`;
-            lock = true; // must click next
             playSound('correct');
-            // add glow effect to character
             document.querySelector('.character-box').classList.add('glow');
             setTimeout(() => document.querySelector('.character-box').classList.remove('glow'), 500);
+
+            // Boss mode
+            if (bossMode) {
+                bossQuestionsLeft--;
+                if (bossQuestionsLeft <= 0) {
+                    showPopup('🎉 YOU DEFEATED THE DEMON! VILLAGE SAVED!', true);
+                    bossMode = false;
+                    bossArea.style.display = 'none';
+                    feedback.innerHTML = '🏆 VICTORY! You saved the village! Play again?';
+                    lock = true;
+                    createSparkle(window.innerWidth/2, window.innerHeight/2, 40);
+                    return;
+                } else {
+                    feedback.innerHTML += ` BOSS: ${bossQuestionsLeft} more correct to go!`;
+                }
+            }
+
+            lock = true;
+            if (autoNextTimeout) clearTimeout(autoNextTimeout);
+            autoNextTimeout = setTimeout(() => {
+                if (health > 0 && !bossMode) {
+                    loadNewAilment();
+                } else if (bossMode && bossQuestionsLeft > 0) {
+                    loadNewAilment();
+                }
+                lock = false;
+                autoNextTimeout = null;
+            }, 1500);
+
+            // Reset attempt trackers
+            lastAttempt = { index: -1, input: '' };
+            usedHintFromWrong = false; // Reset hint flag after correct
+
         } else {
             // WRONG
+            lastAttempt = { index: selectedCardIndex, input: typedClean };
+
+            // Show the correct plant in feedback and set the hint flag
+            let errorMsg = `❌ wrong. The correct plant is ${currentCorrectPlant.common} (${currentCorrectPlant.scientific}).`;
+            if (!isPlantMatch) errorMsg += ' You picked the wrong photo.';
+            else if (!isScientificMatch) errorMsg += ' Scientific name incorrect.';
+            feedback.innerHTML = errorMsg + ' Try again or use hint.';
+            usedHintFromWrong = true; // Mark that the player has been shown the answer
+
+            streak = 0;
+            streakSpan.innerText = '0';
+
             if (health > 0) {
-                // pulse the heart being lost (the last alive heart)
                 let lostIndex = health - 1;
                 heartElements[lostIndex].classList.add('pulse');
                 setTimeout(() => heartElements[lostIndex].classList.remove('pulse'), 300);
@@ -812,7 +1450,6 @@
             updateCharacter('sick');
             showPopup('😫 wrong... -❤️', false);
             playSound('wrong');
-            // shake character
             document.querySelector('.character-box').classList.add('shake');
             setTimeout(() => document.querySelector('.character-box').classList.remove('shake'), 300);
 
@@ -822,27 +1459,64 @@
                 feedback.innerHTML = '💔 character died... restart';
                 return;
             }
-            let errorMsg = '❌ ';
-            if (!isPlantMatch) errorMsg += 'wrong photo. ';
-            if (!isScientificMatch) errorMsg += 'wrong scientific name.';
-            feedback.innerHTML = errorMsg + ' try again';
+
+            if (bossMode) {
+                bossQuestionsLeft = BOSS_REQUIRED;
+                feedback.innerHTML = `BOSS: You lost focus! Need ${BOSS_REQUIRED} correct again.`;
+            }
+
+            submitBtn.disabled = true;
+            setTimeout(() => {
+                if (health > 0) submitBtn.disabled = false;
+            }, 800);
         }
         updateCharacter();
     }
 
-    // Next ailment
+    function handleHint() {
+        if (lock || health <= 0) return;
+        if (!currentCorrectPlant) return;
+        playSound('hint');
+        feedback.innerHTML = `💡 Hint: The plant you need is ${currentCorrectPlant.common}. Its scientific name starts with "${currentCorrectPlant.scientific.charAt(0)}".`;
+        hintBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => hintBtn.style.transform = '', 150);
+        createSparkle(window.innerWidth/2, window.innerHeight/2, 5);
+        // Do NOT set usedHintFromWrong – hint is not the full answer
+    }
+
     function handleNext() {
-        if (health <= 0) {
-            gameOver();
-            return;
-        }
+        if (health <= 0) { gameOver(); return; }
+        if (autoNextTimeout) clearTimeout(autoNextTimeout);
+        lock = false;
         loadNewAilment();
     }
+
+    // Journal modal
+    function openJournal() {
+        journalGrid.innerHTML = '';
+        plants.forEach(p => {
+            let item = document.createElement('div');
+            item.className = `journal-item ${p.healed ? 'healed' : ''}`;
+            item.innerHTML = `
+                <img src="${p.image}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${p.emoji}</text></svg>'">
+                <span>${p.common}</span>
+            `;
+            journalGrid.appendChild(item);
+        });
+        journalModal.style.display = 'block';
+    }
+    journalBtn.addEventListener('click', openJournal);
+    closeJournal.addEventListener('click', () => journalModal.style.display = 'none');
+    window.addEventListener('click', (e) => {
+        if (e.target === journalModal) journalModal.style.display = 'none';
+    });
 
     // Event listeners
     submitBtn.addEventListener('click', handleTreat);
     nextBtn.addEventListener('click', handleNext);
     restartBtn.addEventListener('click', restartGame);
+    hintBtn.addEventListener('click', handleHint);
+    shuffleBtn.addEventListener('click', handleShuffle);
 
     scientificInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -850,8 +1524,10 @@
             submitBtn.click();
         }
     });
+    scientificInput.addEventListener('input', () => {
+        lastAttempt.input = '';
+    });
 
-    // Pupil movement (fun)
     document.addEventListener('mousemove', (e) => {
         if (health <= 0) return;
         const x = (e.clientX / window.innerWidth - 0.5) * 10;
@@ -861,16 +1537,13 @@
     });
 
     // Initial load
+    updateMana(0);
+    updateJournal();
     loadNewAilment();
     updateCharacter('happy');
-    // Unlock audio on any user interaction (browser policy)
     document.body.addEventListener('click', function initAudioUnlock() {
-        if (!audioCtx) {
-            initAudio();
-        }
-        if (audioCtx && audioCtx.state === 'suspended') {
-            audioCtx.resume();
-        }
+        if (!audioCtx) initAudio();
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
     }, { once: true });
 })();
 </script>
