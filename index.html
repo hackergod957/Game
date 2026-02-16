@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 जडीबूटी · plant healer · hearts fix + animations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(145deg, #1b4a2b 0%, #2e6b3e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 12px;
+        }
+
+        .game-wrapper {
+            max-width: 1100px;
+            width: 100%;
+            background: #f2e3cf;
+            border-radius: 50px 50px 30px 30px;
+            box-shadow: 0 20px 30px #0f2b0f, 0 0 0 4px #9fcc9f;
+            overflow: hidden;
+            border: 3px solid #6f8f5f;
+        }
+
+        .character-panel {
+            background: #b8d9ae;
+            padding: 20px 20px 15px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            border-bottom: 5px solid #5f884a;
+            position: relative;
+        }
+
+        .character-box {
+            background: #ffefc0;
+            width: 170px;
+            height: 170px;
+            border-radius: 50% 50% 40% 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 0 #a0815e, inset 0 -8px 0 #ecdca8;
+            border: 3px solid #7b6142;
+            transition: 0.2s;
+        }
+
+        .eyes {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .eye {
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            border: 2px solid #3f2f1c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .pupil {
+            width: 16px;
+            height: 16px;
+            background: #1d3b1d;
+            border-radius: 50%;
+            transition: 0.1s;
+        }
+
+        .mouth {
+            width: 60px;
+            height: 30px;
+            background: transparent;
+            border-bottom: 8px solid #b34a4a;
+            border-radius: 0 0 30px 30px;
+            margin-top: 15px;
+            transition: 0.2s;
+        }
+
+        .mouth.happy {
+            border-bottom: 8px solid #5ba35b;
+            border-radius: 30px 30px 0 0;
+            transform: rotate(180deg);
+        }
+
+        .mouth.sick {
+            border-bottom: 8px solid #b3a14a;
+            border-radius: 0 0 30px 30px;
+            border-width: 8px 4px 4px 4px;
+            width: 40px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mouth.dead {
+            border-bottom: 8px solid #5f5f5f;
+            border-radius: 0;
+            width: 50px;
+            border-bottom: 4px solid #555;
+        }
+
+        .dead .pupil {
+            background: #555;
+        }
+
+        .health-bar {
+            background: #482e1b;
+            border-radius: 60px;
+            padding: 10px 18px;
+            display: flex;
+            gap: 10px;
+            border: 3px solid #ffd78c;
+        }
+
+        .heart {
+            font-size: 2.2rem;
+            color: #ff3b3b;
+            text-shadow: 0 3px 0 #951919;
+            transition: all 0.2s ease;
+        }
+
+        /* LOST HEART - now clearly faded and gray */
+        .heart.dead {
+            color: #7a7a7a !important;
+            text-shadow: 0 3px 0 #3f3f3f !important;
+            opacity: 0.3;
+            transform: scale(0.9);
+            filter: grayscale(1);
+        }
+
+        /* small animation when heart changes */
+        .heart.pulse {
+            animation: heartPulse 0.3s ease;
+        }
+
+        @keyframes heartPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); color: #ff9090; }
+            100% { transform: scale(1); }
+        }
+
+        .symptom-box {
+            background: #fcf0d5;
+            border-radius: 60px;
+            padding: 16px 25px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1b461b;
+            box-shadow: inset 0 -4px 0 #b89a7a, 0 8px 0 #5e7a4e;
+            border: 2px solid #6a923a;
+            min-width: 280px;
+            text-align: center;
+        }
+
+        .popup {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fef7e0;
+            border: 4px solid #c09a5e;
+            border-radius: 60px;
+            padding: 20px 40px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e4a1e;
+            box-shadow: 0 15px 0 #6f4f2b, 0 20px 20px rgba(0,0,0,0.3);
+            z-index: 999;
+            display: none;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .computer-panel {
+            background: #bed5af;
+            padding: 25px 20px;
+            border-top: 4px solid #57803d;
+        }
+
+        .screen {
+            background: #1f3827;
+            border: 8px solid #6c946c;
+            border-radius: 30px;
+            padding: 25px 20px;
+            box-shadow: inset 0 0 0 3px #aacfaa, 0 10px 0 #355235;
+            color: #cfffc3;
+        }
+
+        .instructions {
+            text-align: center;
+            font-size: 1.2rem;
+            background: #1f3d26;
+            padding: 8px 16px;
+            border-radius: 60px;
+            margin-bottom: 25px;
+            border: 2px solid #87b386;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .mute-btn {
+            background: #ebc36b;
+            border: none;
+            border-radius: 40px;
+            padding: 5px 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: 2px solid #6f8f5f;
+            color: #2b4d2b;
+            font-weight: bold;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 18px;
+            margin: 30px 0 25px;
+        }
+
+        .plant-card {
+            background: #ebdbbc;
+            border-radius: 30px;
+            border: 4px solid #5f8246;
+            box-shadow: 0 7px 0 #42633b;
+            cursor: pointer;
+            transition: 0.1s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 8px 12px;
+            color: #1d421d;
+            min-height: 180px;
+        }
+
+        .plant-card .image-container {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5e9d4;
+            border-radius: 30px;
+            border: 3px solid #8aa878;
+            overflow: hidden;
+        }
+
+        .plant-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .plant-card .fallback {
+            font-size: 3.5rem;
+            line-height: 1;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #c5b59b;
+            color: #1d421d;
+        }
+
+        .plant-card span {
+            font-weight: 600;
+            font-size: 0.95rem;
+            background: #fcf9e9;
+            padding: 5px 10px;
+            border-radius: 30px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #486335;
+            margin-top: 8px;
+        }
+
+        .plant-card.selected {
+            background: #f8f0aa;
+            border-color: #caa835;
+            box-shadow: 0 7px 0 #a07d2b;
+            transform: scale(1.02);
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-7px); }
+            50% { transform: translateX(7px); }
+            75% { transform: translateX(-3px); }
+            100% { transform: translateX(0); }
+        }
+        .shake {
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px #5f8b5f; }
+            50% { box-shadow: 0 0 20px #b3ffa7; }
+            100% { box-shadow: 0 0 5px #5f8b5f; }
+        }
+        .glow {
+            animation: glow 0.5s ease;
+        }
+
+        .scientific-input-area {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background: #2a462f;
+            padding: 15px 20px;
+            border-radius: 60px;
+            border: 2px solid #7ead73;
+            margin-top: 20px;
+        }
+
+        .scientific-input-area label {
+            font-weight: bold;
+            color: #dcf5cf;
+            font-size: 1.2rem;
+        }
+
+        .scientific-input-area input {
+            flex: 3 1 260px;
+            padding: 14px 24px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            background: #fcf5e3;
+            border: 2px solid #54734b;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #1a3b1a;
+            outline: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0 10px;
+        }
+
+        .btn {
+            background: #eccf8d;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            padding: 16px 40px;
+            border-radius: 50px;
+            border: 3px solid #5f7648;
+            box-shadow: 0 7px 0 #506b3a;
+            cursor: pointer;
+            transition: 0.05s linear;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: #1e421e;
+        }
+
+        .btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #3e6232;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            transform: translateY(3px);
+        }
+
+        .feedback {
+            background: #382f1f;
+            border-radius: 40px;
+            padding: 14px 24px;
+            font-size: 1.2rem;
+            text-align: center;
+            color: #fcf0ba;
+            margin-top: 15px;
+            border: 2px solid #a1b976;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            background: #5f8053;
+            padding: 10px 25px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid #bad6a3;
+            margin-bottom: 10px;
+        }
+
+        .game-overlay {
+            background: rgba(0,0,0,0.7);
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .gameover-box {
+            background: #edcfa9;
+            border: 8px solid #a55820;
+            border-radius: 80px;
+            padding: 40px 80px;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #3d1e1e;
+            box-shadow: 0 20px 0 #753e0e;
+        }
+        .restart-btn {
+            background: #fcca6b;
+            border: none;
+            font-size: 2rem;
+            padding: 20px 50px;
+            border-radius: 60px;
+            margin-top: 30px;
+            cursor: pointer;
+            border: 3px solid #a06b2c;
+        }
+        .image-note {
+            font-size: 0.8rem;
+            color: #cedfc1;
+            margin-top: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="popup" id="popupMessage">✨ healed!</div>
+    <div class="game-overlay" id="gameOverlay">
+        <div class="gameover-box">
+            💀 गयो ! 💀<br>
+            <button class="restart-btn" id="restartBtn"><i class="fas fa-sync"></i> reincarnate</button>
+        </div>
+    </div>
+
+<div class="game-wrapper">
+    <div class="character-panel">
+        <div class="character-box" id="character">
+            <div class="eyes">
+                <div class="eye"><div class="pupil" id="leftPupil"></div></div>
+                <div class="eye"><div class="pupil" id="rightPupil"></div></div>
+            </div>
+            <div class="mouth" id="mouth"></div>
+        </div>
+        <div class="health-bar" id="healthBar">
+            <span class="heart" id="heart1">❤️</span>
+            <span class="heart" id="heart2">❤️</span>
+            <span class="heart" id="heart3">❤️</span>
+        </div>
+        <div class="symptom-box" id="symptomDisplay">
+            <i class="fas fa-dizzy"></i> <span id="ailmentText">Loading...</span>
+        </div>
+    </div>
+
+    <div class="computer-panel">
+        <div class="screen">
+            <div class="instructions">
+                <i class="fas fa-camera"></i> click photo · type scientific name
+                <button class="mute-btn" id="muteBtn"><i class="fas fa-volume-up"></i> sound</button>
+            </div>
+
+            <div class="photo-grid" id="photoGrid"></div>
+
+            <div class="scientific-input-area">
+                <label><i class="fas fa-microscope"></i> scientific name:</label>
+                <input type="text" id="scientificInput" placeholder="e.g. Ocimum tenuiflorum" autocomplete="off">
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn" id="submitBtn"><i class="fas fa-syringe"></i> treat</button>
+                <button class="btn" id="nextBtn"><i class="fas fa-disease"></i> new symptom</button>
+            </div>
+
+            <div class="feedback" id="feedbackMsg">💬 select a plant & type its scientific name...</div>
+
+            <div class="score-bar">
+                <span><i class="fas fa-leaf"></i> cured: <span id="scoreHealed">0</span></span>
+                <span><i class="fas fa-skull"></i> attempts: <span id="scoreAttempts">0</span></span>
+            </div>
+            <div class="image-note"><i class="fas fa-image"></i> real plant photos (fallback emoji)</div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // ------ plant database with reliable image URLs ------
+    const plants = [
+        { common: "Holy Basil (Tulsi)", scientific: "Ocimum tenuiflorum", use: "throat pain, colds, infections", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg/800px-Tulsi_%28Ocimum_tenuiflorum%29_leaves.jpg", emoji: "🌿" },
+        { common: "Neem", scientific: "Azadirachta indica", use: "skin problems, blood purifier", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Azadirachta_indica_%28Neem%29_leaves.jpg/800px-Azadirachta_indica_%28Neem%29_leaves.jpg", emoji: "🌳" },
+        { common: "Heart-leaved moonseed (Gurjo)", scientific: "Tinospora cordifolia", use: "boost immunity, reduce sugar", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Tinospora_cordifolia_%28Guduchi%29.jpg/800px-Tinospora_cordifolia_%28Guduchi%29.jpg", emoji: "🌱" },
+        { common: "Asiatic pennywort (Ghod tapre)", scientific: "Centella asiatica", use: "memory, anxiety, burn healing", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Centella_asiatica_%28Gotu_kola%29.jpg/800px-Centella_asiatica_%28Gotu_kola%29.jpg", emoji: "☘️" },
+        { common: "Turmeric", scientific: "Curcuma longa", use: "respiratory, skin, antimicrobial", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Curcuma_longa_rhizomes.jpg/800px-Curcuma_longa_rhizomes.jpg", emoji: "🟡" },
+        { common: "Malabar nut (Asuro)", scientific: "Adhatoda vasica", use: "respiratory, mucus, gum ailments", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg/800px-Justicia_adhatoda_%28Malabar_nut%29_flowers.jpg", emoji: "🌼" },
+        { common: "Calamus (Bojo)", scientific: "Acorus calamus", use: "throat disorders, upset stomach", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Acorus_calamus_%28Calamus%29.jpg/800px-Acorus_calamus_%28Calamus%29.jpg", emoji: "🌾" },
+        { common: "Caterpillar fungus (Yarsagumba)", scientific: "Cordyceps sinensis", use: "energy booster, tonic", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg/800px-Ophiocordyceps_sinensis_%28Yarsagumba%29.jpg", emoji: "🐛" },
+        { common: "Mugwort (Tite paati)", scientific: "Artemisia vulgaris", use: "cosmetics, pesticides, bedding", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Artemisia_vulgaris_%28Mugwort%29.jpg/800px-Artemisia_vulgaris_%28Mugwort%29.jpg", emoji: "🌿" },
+        { common: "Aloe vera (Ghiu kumari)", scientific: "Aloe vera", use: "skin, burns, hair, sunburn", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.jpg/800px-Aloe_vera_flower_inset.jpg", emoji: "🌵" }
+    ];
+
+    // DOM elements
+    const photoGrid = document.getElementById('photoGrid');
+    const ailmentSpan = document.getElementById('ailmentText');
+    const scientificInput = document.getElementById('scientificInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const feedback = document.getElementById('feedbackMsg');
+    const scoreHealedSpan = document.getElementById('scoreHealed');
+    const scoreAttemptsSpan = document.getElementById('scoreAttempts');
+    const mouth = document.getElementById('mouth');
+    const leftPupil = document.getElementById('leftPupil');
+    const rightPupil = document.getElementById('rightPupil');
+    const heartElements = [document.getElementById('heart1'), document.getElementById('heart2'), document.getElementById('heart3')];
+    const popup = document.getElementById('popupMessage');
+    const gameOverlay = document.getElementById('gameOverlay');
+    const restartBtn = document.getElementById('restartBtn');
+    const muteBtn = document.getElementById('muteBtn');
+
+    // Sound system (Web Audio API)
+    let audioCtx = null;
+    let muted = false;
+    function initAudio() {
+        if (audioCtx) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    function playSound(type) {
+        if (muted) return;
+        if (!audioCtx) {
+            initAudio();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        if (type === 'correct') {
+            osc.frequency.value = 880;
+            gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+        } else if (type === 'wrong') {
+            osc.frequency.value = 220;
+            gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.2);
+        } else if (type === 'gameover') {
+            osc.frequency.value = 110;
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        }
+    }
+
+    // Toggle mute
+    muteBtn.addEventListener('click', () => {
+        muted = !muted;
+        muteBtn.innerHTML = muted ? '<i class="fas fa-volume-mute"></i> mute' : '<i class="fas fa-volume-up"></i> sound';
+    });
+
+    // State
+    let currentCorrectPlant = null;
+    let currentOptions = [];
+    let selectedCardIndex = -1;
+    let healedCount = 0;
+    let attemptCount = 0;
+    let health = 3;
+    let lock = false;
+
+    // Helper: random symptom phrase
+    function getSymptomFromUse(plant) {
+        const symptoms = [
+            `I have ${plant.use.toLowerCase()}.`,
+            `Help! My ${plant.use.split(',')[0]} is killing me.`,
+            `Suffering from ${plant.use}.`,
+            `Need ${plant.common.split(' ')[0]}!`,
+            `My body aches with ${plant.use}.`
+        ];
+        return symptoms[Math.floor(Math.random() * symptoms.length)];
+    }
+
+    // Update character appearance and hearts
+    function updateCharacter(mood = null) {
+        // update hearts: apply 'dead' class to those beyond health
+        for (let i = 0; i < heartElements.length; i++) {
+            if (i < health) {
+                heartElements[i].classList.remove('dead');
+            } else {
+                heartElements[i].classList.add('dead');
+            }
+        }
+
+        if (health <= 0) {
+            mouth.className = 'mouth dead';
+            leftPupil.style.background = '#555';
+            rightPupil.style.background = '#555';
+            return;
+        } else {
+            leftPupil.style.background = '#1d3b1d';
+            rightPupil.style.background = '#1d3b1d';
+        }
+
+        if (mood === 'happy') {
+            mouth.className = 'mouth happy';
+        } else if (mood === 'sick') {
+            mouth.className = 'mouth sick';
+        } else {
+            if (health === 1) mouth.className = 'mouth sick';
+            else mouth.className = 'mouth suffering'; // default
+        }
+    }
+
+    // Show popup
+    function showPopup(text, isGood = true) {
+        popup.style.display = 'block';
+        popup.textContent = text;
+        popup.style.background = isGood ? '#d7f0c3' : '#f8c8b0';
+        popup.style.color = isGood ? '#1d4f1d' : '#711010';
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 1200);
+    }
+
+    // Game over
+    function gameOver() {
+        playSound('gameover');
+        gameOverlay.style.display = 'flex';
+        lock = true;
+    }
+
+    // Restart game
+    function restartGame() {
+        health = 3;
+        healedCount = 0;
+        attemptCount = 0;
+        scoreHealedSpan.innerText = '0';
+        scoreAttemptsSpan.innerText = '0';
+        updateCharacter('happy');
+        gameOverlay.style.display = 'none';
+        lock = false;
+        loadNewAilment();
+    }
+
+    // Get random options (3 distractors + correct)
+    function getRandomOptions(correctPlant, count = 4) {
+        const others = plants.filter(p => p.common !== correctPlant.common);
+        const shuffled = others.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, count - 1);
+        const options = [...selected, correctPlant];
+        for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+        return options;
+    }
+
+    // Render photo grid with fallback
+    function renderPhotoGrid() {
+        photoGrid.innerHTML = '';
+        currentOptions.forEach((plant, idx) => {
+            const card = document.createElement('div');
+            card.className = `plant-card ${selectedCardIndex === idx ? 'selected' : ''}`;
+            card.dataset.index = idx;
+            card.dataset.scientific = plant.scientific;
+
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'image-container';
+
+            const img = document.createElement('img');
+            img.src = plant.image;
+            img.alt = plant.common;
+            img.loading = 'lazy';
+            img.onerror = function() {
+                const fallbackDiv = document.createElement('div');
+                fallbackDiv.className = 'fallback';
+                fallbackDiv.innerHTML = plant.emoji;
+                imgContainer.innerHTML = '';
+                imgContainer.appendChild(fallbackDiv);
+            };
+
+            imgContainer.appendChild(img);
+
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = plant.common;
+
+            card.appendChild(imgContainer);
+            card.appendChild(nameSpan);
+
+            card.addEventListener('click', () => {
+                if (lock || health <= 0) return;
+                if (selectedCardIndex !== -1) {
+                    const prev = document.querySelector(`.plant-card[data-index="${selectedCardIndex}"]`);
+                    if (prev) prev.classList.remove('selected');
+                }
+                selectedCardIndex = idx;
+                card.classList.add('selected');
+            });
+
+            photoGrid.appendChild(card);
+        });
+    }
+
+    // Load new ailment
+    function loadNewAilment() {
+        if (health <= 0) {
+            gameOver();
+            return;
+        }
+        const randomIndex = Math.floor(Math.random() * plants.length);
+        currentCorrectPlant = plants[randomIndex];
+        currentOptions = getRandomOptions(currentCorrectPlant, 4);
+        selectedCardIndex = -1;
+        document.querySelectorAll('.plant-card').forEach(c => c.classList.remove('selected'));
+        ailmentSpan.innerText = getSymptomFromUse(currentCorrectPlant);
+        scientificInput.value = '';
+        feedback.innerHTML = '💬 select a photo and type scientific name...';
+        lock = false;
+        updateCharacter(health === 3 ? 'happy' : 'sick');
+        renderPhotoGrid();
+    }
+
+    // Handle treat
+    function handleTreat() {
+        if (lock || health <= 0) return;
+        if (!currentCorrectPlant) return;
+
+        if (selectedCardIndex === -1) {
+            feedback.innerHTML = '⚠️ click a plant photo first!';
+            showPopup('🙏 select photo', false);
+            return;
+        }
+
+        const typedName = scientificInput.value.trim();
+        if (!typedName) {
+            feedback.innerHTML = '⚠️ type scientific name';
+            showPopup('📝 enter name', false);
+            return;
+        }
+
+        const selectedPlant = currentOptions[selectedCardIndex];
+        const correctSci = currentCorrectPlant.scientific.toLowerCase();
+        const typedClean = typedName.toLowerCase().replace(/\s+/g, ' ').trim();
+        const sciSimplified = correctSci.replace(/\./g, '').replace(/\s+/g, ' ');
+        const typedSimplified = typedClean.replace(/\./g, '').replace(/\s+/g, ' ');
+
+        const isScientificMatch = (typedSimplified === sciSimplified) || (typedClean === correctSci);
+        const isPlantMatch = (selectedPlant.common === currentCorrectPlant.common);
+
+        attemptCount++;
+        scoreAttemptsSpan.innerText = attemptCount;
+
+        if (isScientificMatch && isPlantMatch) {
+            // CORRECT
+            healedCount++;
+            scoreHealedSpan.innerText = healedCount;
+            if (health < 3) {
+                health++;
+                // pulse the gained heart
+                heartElements[health-1].classList.add('pulse');
+                setTimeout(() => heartElements[health-1].classList.remove('pulse'), 300);
+            }
+            updateCharacter('happy');
+            showPopup('💚 healed! +❤️', true);
+            feedback.innerHTML = `✅ perfect! ${currentCorrectPlant.scientific} is correct.`;
+            lock = true; // must click next
+            playSound('correct');
+            // add glow effect to character
+            document.querySelector('.character-box').classList.add('glow');
+            setTimeout(() => document.querySelector('.character-box').classList.remove('glow'), 500);
+        } else {
+            // WRONG
+            if (health > 0) {
+                // pulse the heart being lost (the last alive heart)
+                let lostIndex = health - 1;
+                heartElements[lostIndex].classList.add('pulse');
+                setTimeout(() => heartElements[lostIndex].classList.remove('pulse'), 300);
+            }
+            health--;
+            updateCharacter('sick');
+            showPopup('😫 wrong... -❤️', false);
+            playSound('wrong');
+            // shake character
+            document.querySelector('.character-box').classList.add('shake');
+            setTimeout(() => document.querySelector('.character-box').classList.remove('shake'), 300);
+
+            if (health <= 0) {
+                updateCharacter('dead');
+                gameOver();
+                feedback.innerHTML = '💔 character died... restart';
+                return;
+            }
+            let errorMsg = '❌ ';
+            if (!isPlantMatch) errorMsg += 'wrong photo. ';
+            if (!isScientificMatch) errorMsg += 'wrong scientific name.';
+            feedback.innerHTML = errorMsg + ' try again';
+        }
+        updateCharacter();
+    }
+
+    // Next ailment
+    function handleNext() {
+        if (health <= 0) {
+            gameOver();
+            return;
+        }
+        loadNewAilment();
+    }
+
+    // Event listeners
+    submitBtn.addEventListener('click', handleTreat);
+    nextBtn.addEventListener('click', handleNext);
+    restartBtn.addEventListener('click', restartGame);
+
+    scientificInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            submitBtn.click();
+        }
+    });
+
+    // Pupil movement (fun)
+    document.addEventListener('mousemove', (e) => {
+        if (health <= 0) return;
+        const x = (e.clientX / window.innerWidth - 0.5) * 10;
+        const y = (e.clientY / window.innerHeight - 0.5) * 8;
+        leftPupil.style.transform = `translate(${x}px, ${y}px)`;
+        rightPupil.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    // Initial load
+    loadNewAilment();
+    updateCharacter('happy');
+    // Unlock audio on any user interaction (browser policy)
+    document.body.addEventListener('click', function initAudioUnlock() {
+        if (!audioCtx) {
+            initAudio();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    }, { once: true });
+})();
+</script>
+</body>
+</html>
